@@ -1,69 +1,62 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User do
   let(:user) { build(:user) }
 
   context "When it's valid" do
-    it "should have email" do
+    it "has email" do
       expect(user.email).to be_present
     end
-    it "should have username" do
+    it "has username" do
       expect(user.username).to be_present
     end
-    it "should have firstname" do
+    it "has firstname" do
       expect(user.firstname).to be_present
     end
-    it "should have lastname" do
+    it "has lastname" do
       expect(user.lastname).to be_present
+    end
+    it "can be member of multiple teams" do
+      user.teams << create(:team)
+      user.teams << create(:team)
+      expect(user).to be_valid
     end
   end
 
   context "When it's invalid" do
-    let(:user) { build(:user, username: 'TheHops')}
+    let(:user) { build(:user, username: "TheHops") }
     context "the username" do
       it "doesn't exist" do
         user.username = nil
-        expect(user).to_not be_valid
-      end
-
-      it "is too short" do
-        user.username = "**"
-        expect(user).to_not be_valid
-      end
-
-      it "is too long" do
-        user.username = "more-than-15-signs"
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
       end
 
       it "isn't unique" do
-        create(:user, username: 'TheHops')
-        expect(user).to_not be_valid
+        create(:user, username: "TheHops")
+        expect(user).not_to be_valid
       end
-
     end
 
     context "the email" do
       it "doesn't exist" do
         user.email = nil
-        expect(user).to_not be_valid
+        expect(user).not_to be_valid
       end
 
       it "doesn't have @" do
-        user.email = 'some-mail-without-at'
-        expect(user).to_not be_valid
+        user.email = "some-mail-without-at"
+        expect(user).not_to be_valid
       end
     end
 
     it "doesn't have firstname" do
       user.firstname = nil
-      expect(user).to_not be_valid
+      expect(user).not_to be_valid
     end
 
     it "doesn't have lastname" do
       user.lastname = nil
-      expect(user).to_not be_valid
+      expect(user).not_to be_valid
     end
-
   end
 end
