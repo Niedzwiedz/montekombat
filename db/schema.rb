@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20160905122621) do
 
   create_table "games", force: :cascade do |t|
     t.string "name"
+    t.string "game_picture"
   end
 
   create_table "matches", force: :cascade do |t|

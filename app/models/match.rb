@@ -22,6 +22,8 @@ class Match < ApplicationRecord
   }
   validates :status, inclusion: { in: %w(upcoming in_progress finished) }
 
+  private
+
   def same_player_cant_be_in_both_teams
     same_players_check if !team_1.nil? && !team_2.nil?
   end

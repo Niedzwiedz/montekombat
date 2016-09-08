@@ -4,8 +4,11 @@ RSpec.describe Game do
   let(:game) { build(:game) }
   context "When its valid" do
     it "has name" do
+      byebug
       expect(game.name).to be_present
     end
+
+    it { expect(game.game_picture ).not_to be_present }
   end
   context "When its invalid" do
     let(:game) { build(:game, name: "uniquename") }
