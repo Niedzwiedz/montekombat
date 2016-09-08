@@ -6,6 +6,7 @@ class CreateUser < ActiveRecord::Migration[5.0]
       t.string :firstname
       t.string :lastname
       t.string :password
+      t.integer :account_type, default: 0
     end
   end
 end

@@ -21,6 +21,15 @@ RSpec.describe User do
       user.teams << create(:team)
       expect(user).to be_valid
     end
+    context "can have different account types" do
+      it "is normal user" do
+        expect(user.normal?).to eq(true)
+      end
+      it "is administrator" do
+        user.admin!
+        expect(user.admin?).to eq(true)
+      end
+    end
   end
 
   context "When it's invalid" do
@@ -56,6 +65,11 @@ RSpec.describe User do
 
     it "doesn't have lastname" do
       user.lastname = nil
+      expect(user).not_to be_valid
+    end
+
+    it "doesn't have account type" do
+      user.account_type = nil
       expect(user).not_to be_valid
     end
   end

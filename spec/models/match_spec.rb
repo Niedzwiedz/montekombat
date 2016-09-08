@@ -28,6 +28,14 @@ RSpec.describe Match do
       match.team_2.users << build(:user)
       expect(match).to be_valid
     end
+
+    it "has specified type" do
+      expect(match.match_type).not_to be(nil)
+    end
+
+    it "has status" do
+      expect(match.status).not_to be(nil)
+    end
   end
 
   context "is invalid" do
@@ -51,6 +59,16 @@ RSpec.describe Match do
     it "has same team member in two of the fighting teams" do
       match.team_1.users << user
       match.team_2.users << user
+      expect(match).not_to be_valid
+    end
+
+    it "doesn't have type" do
+      match.match_type = nil
+      expect(match).not_to be_valid
+    end
+
+    it "doesn't have status" do
+      match.status = nil
       expect(match).not_to be_valid
     end
   end

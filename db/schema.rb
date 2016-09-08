@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20160905122621) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "games", force: :cascade do |t|
     t.string "name"
   end
@@ -20,19 +23,21 @@ ActiveRecord::Schema.define(version: 20160905122621) do
     t.integer  "game_id"
     t.integer  "team_1_id"
     t.integer  "team_2_id"
-    t.integer  "points_for_team1"
-    t.integer  "points_for_team2"
+    t.integer  "points_for_team1", default: 0
+    t.integer  "points_for_team2", default: 0
     t.datetime "date"
-    t.index ["game_id"], name: "index_matches_on_game_id"
-    t.index ["team_1_id"], name: "index_matches_on_team_1_id"
-    t.index ["team_2_id"], name: "index_matches_on_team_2_id"
+    t.integer  "match_type",       default: 0
+    t.integer  "status",           default: 0
+    t.index ["game_id"], name: "index_matches_on_game_id", using: :btree
+    t.index ["team_1_id"], name: "index_matches_on_team_1_id", using: :btree
+    t.index ["team_2_id"], name: "index_matches_on_team_2_id", using: :btree
   end
 
   create_table "team_users", force: :cascade do |t|
     t.integer "team_id"
     t.integer "user_id"
-    t.index ["team_id"], name: "index_team_users_on_team_id"
-    t.index ["user_id"], name: "index_team_users_on_user_id"
+    t.index ["team_id"], name: "index_team_users_on_team_id", using: :btree
+    t.index ["user_id"], name: "index_team_users_on_user_id", using: :btree
   end
 
   create_table "teams", force: :cascade do |t|
@@ -40,11 +45,12 @@ ActiveRecord::Schema.define(version: 20160905122621) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "email"
-    t.string "firstname"
-    t.string "lastname"
-    t.string "password"
+    t.string  "username"
+    t.string  "email"
+    t.string  "firstname"
+    t.string  "lastname"
+    t.string  "password"
+    t.integer "account_type", default: 0
   end
 
 end

@@ -1,5 +1,5 @@
 class Game < ActiveRecord::Base
-  has_many :matchs
+  has_many :matches
 
-  validates :name, uniqueness: true, presence: true
+  validates :name, uniqueness: true, presence: true, length: { maximum: 100 }
 end
