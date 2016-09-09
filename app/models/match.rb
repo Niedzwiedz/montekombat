@@ -5,6 +5,7 @@ class Match < ApplicationRecord
 
   validates_presence_of :team_1, :team_2, :points_for_team1, :points_for_team2
   validate :same_player_cant_be_in_both_teams
+  # validate :empty_teams
 
   enum match_type: {
     friendly: 0,
@@ -28,6 +29,12 @@ class Match < ApplicationRecord
   def same_players_check
     unless team_1.users & team_2.users == []
       errors[:player] << "Same player can't be a member of both teams"
+    end
+  end
+
+  def empty_teams
+    if team_1.users.empty? || team_2.users.empty?
+      errors[:team] << "There is an empty team"
     end
   end
 end

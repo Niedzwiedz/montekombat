@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Game do
   let(:game) { build(:game) }
-  context "When it's valid" do
+  context "with valid attributes" do
     it "has name" do
       expect(game.name).to be_present
     end
@@ -11,7 +11,7 @@ RSpec.describe Game do
       expect(game.game_picture).to be_present
     end
   end
-  context "When it's invalid" do
+  context "with invalid attributes" do
     let(:game) { build(:game, name: "uniquename") }
     context "does not have unique name" do
       before do

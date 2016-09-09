@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Match do
-  let(:match) { build(:match) }
   let(:user) { create(:user) }
-  context "When it's valid" do
-    it "it's attributes are present and correct" do
+  let(:match) { build(:match) }
+  context "with valid attributes" do
+    it "" do
       expect(match).to be_valid
     end
 
@@ -17,29 +17,29 @@ RSpec.describe Match do
     end
   end
 
-  describe "When it's invalid" do
-    context "points for team 1 don't exist" do
+  describe "with valid attributes" do
+    context "points for team 1 is not present" do
       before do
         match.points_for_team1 = nil
       end
       it { expect(match).not_to be_valid }
     end
 
-    context "points for team 2 don't exist" do
+    context "points for team 2 is not present" do
       before do
         match.points_for_team2 = nil
       end
       it { expect(match).not_to be_valid }
     end
 
-    context "team 1 doesn't exist" do
+    context "team 1 is not present" do
       before do
         match.team_1 = nil
       end
       it { expect(match).not_to be_valid }
     end
 
-    context "team 2 doesn't exist" do
+    context "team 2 is not present" do
       before do
         match.team_2 = nil
       end
@@ -53,6 +53,13 @@ RSpec.describe Match do
       end
       it { expect(match).not_to be_valid }
     end
+
+    context "there is an empty team" # do
+    #   before do
+    #     match.team_1.users.clear
+    #   end
+    #   it { expect(match).not_to be_valid }
+    # end
 
     context "doesn't have type" do
       before do

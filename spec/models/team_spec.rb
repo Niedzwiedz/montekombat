@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Team do
   let(:team) { build(:team, name: "somename") }
   let(:user) { build(:user, username: "somename") }
-  context "When it's valid" do
+  context "with valid attributes" do
     it "has unique name" do
       expect(team.name).to be_present
     end
@@ -25,7 +25,7 @@ RSpec.describe Team do
     end
   end
 
-  describe "When it's invalid" do
+  describe "with invalid attributes" do
     context "doesn't have unique name" do
       before do
         create(:team, name: "somename")
