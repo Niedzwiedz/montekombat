@@ -18,21 +18,21 @@ music = Team.create(name: "music fans")
 Team.create(name: "polish reaggae fans")
 no = Team.create(name: "no fans")
 
-TeamUser.create(metallica, killem_all)
-TeamUser.create(metallica, master_of_puppets)
-TeamUser.create(metallica, ride_the_lightning)
+TeamUser.create(team: metallica, user: killem_all)
+TeamUser.create(team: metallica, user: master_of_puppets)
+TeamUser.create(team: metallica, user: ride_the_lightning)
 
-TeamUser.create(metal, master_of_puppets)
-TeamUser.create(metal, killem_all)
+TeamUser.create(team: metal, user: master_of_puppets)
+TeamUser.create(team: metal, user: killem_all)
 
-TeamUser.create(music, killem_all)
-TeamUser.create(music, master_of_puppets)
+TeamUser.create(team: music, user: killem_all)
+TeamUser.create(team: music, user: master_of_puppets)
 
-TeamUser.create(no, reload)
-TeamUser.create(no, load)
+TeamUser.create(team: no, user: reload)
+TeamUser.create(team: no, user: load)
 
 mkx = Game.create(name: "Mortal Kombat X")
 fifa = Game.create(name: "Fifa 2016")
 
-Match.create(mkx, metal, no)
-Match.create(fifa, metallica, no)
+Match.create(game: mkx, team_1: metal, team_2: no)
+Match.create(game: fifa, team_1: metallica, team_2: no)

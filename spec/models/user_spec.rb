@@ -4,73 +4,73 @@ RSpec.describe User do
   let(:user) { build(:user) }
 
   context "When it's valid" do
-    it "has email" do
-      expect(user.email).to be_present
-    end
-    it "has username" do
-      expect(user.username).to be_present
-    end
-    it "has firstname" do
-      expect(user.firstname).to be_present
-    end
-    it "has lastname" do
-      expect(user.lastname).to be_present
-    end
-    it "can be member of multiple teams" do
-      user.teams << create(:team)
-      user.teams << create(:team)
-      expect(user).to be_valid
-    end
-    context "can have different account types" do
-      it "is normal user" do
-        expect(user.normal?).to eq(true)
+    context "can be member of multiple teams" do
+      before do
+        user.teams << create(:team)
+        user.teams << create(:team)
       end
-      it "is administrator" do
+      it { expect(user).to be_valid }
+    end
+    it "user has normal account" do
+      expect(user.normal?).to eq(true)
+    end
+    context "has admin account" do
+      before do
         user.admin!
-        expect(user.admin?).to eq(true)
       end
+      it { expect(user.admin?).to eq(true) }
     end
   end
+end
 
-  context "When it's invalid" do
-    let(:user) { build(:user, username: "TheHops") }
-    context "the username" do
-      it "doesn't exist" do
-        user.username = nil
-        expect(user).not_to be_valid
-      end
-
-      it "isn't unique" do
-        create(:user, username: "TheHops")
-        expect(user).not_to be_valid
-      end
+describe "When it's invalid" do
+  let(:user) { build(:user, username: "TheHops") }
+  context "username doesn't exist" do
+    before do
+      user.username = nil
     end
+    it { expect(user).not_to be_valid }
+  end
 
-    context "the email" do
-      it "doesn't exist" do
-        user.email = nil
-        expect(user).not_to be_valid
-      end
-
-      it "doesn't have @" do
-        user.email = "some-mail-without-at"
-        expect(user).not_to be_valid
-      end
+  context "username isn't unique" do
+    before do
+      create(:user, username: "TheHops")
     end
+    it { expect(user).not_to be_valid }
+  end
 
-    it "doesn't have firstname" do
+  context "email doesn't exist" do
+    before do
+      user.email = nil
+    end
+    it { expect(user).not_to be_valid }
+  end
+
+  context "email doesn't have @" do
+    before do
+      user.email = "some-mail-without-at"
+    end
+    it { expect(user).not_to be_valid }
+  end
+
+  context "doesn't have firstname" do
+    before do
       user.firstname = nil
-      expect(user).not_to be_valid
     end
+    it { expect(user).not_to be_valid }
+  end
 
-    it "doesn't have lastname" do
+  context "doesn't have lastname" do
+    before do
       user.lastname = nil
-      expect(user).not_to be_valid
     end
+    it { expect(user).not_to be_valid }
+  end
 
-    it "doesn't have account type" do
+  context "doesn't have account type" do
+    before do
       user.account_type = nil
-      expect(user).not_to be_valid
     end
+    it { expect(user).not_to be_valid }
   end
 end

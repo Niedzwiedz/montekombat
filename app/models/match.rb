@@ -3,10 +3,7 @@ class Match < ApplicationRecord
   belongs_to :team_2, class_name: "Team"
   belongs_to :game
 
-  validates :points_for_team1, presence: true
-  validates :points_for_team2, presence: true
-  validates :team_1, presence: true
-  validates :team_2, presence: true
+  validates_presence_of :team_1, :team_2, :points_for_team1, :points_for_team2
   validate :same_player_cant_be_in_both_teams
 
   enum match_type: {
@@ -25,7 +22,7 @@ class Match < ApplicationRecord
   private
 
   def same_player_cant_be_in_both_teams
-    same_players_check if !team_1.nil? && !team_2.nil?
+    same_players_check if team_1.present? && team_2.present?
   end
 
   def same_players_check
