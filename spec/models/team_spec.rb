@@ -1,25 +1,20 @@
 require "rails_helper"
 
 RSpec.describe Team do
-  let(:team) { build(:team, name: "somename") }
   let(:user) { build(:user, username: "somename") }
+  let(:team) { build(:team, name: "somename") }
+  let(:match) { build(:match) }
   context "with valid attributes" do
+    before do
+      team.users << user
+    end
     it "has unique name" do
       expect(team.name).to be_present
     end
 
     context "has unique players" do
       before do
-        team.users << user
         team.users << create(:user, username: "bettername")
-      end
-      it { expect(team).to be_valid }
-    end
-
-    context "can participe in multiple matches" do
-      before do
-        team.matches << create(:match)
-        team.matches << build(:match)
       end
       it { expect(team).to be_valid }
     end

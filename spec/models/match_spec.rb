@@ -3,21 +3,44 @@ require "rails_helper"
 RSpec.describe Match do
   let(:user) { create(:user) }
   let(:match) { build(:match) }
+  let(:match2) { build(:match) }
   context "with valid attributes" do
+    before do
+      match.team_1.users << user
+      match.team_1.users << build(:user)
+      match.team_2.users << build(:user)
+      match.team_2.users << build(:user)
+    end
     it "" do
       expect(match).to be_valid
     end
 
     context "doesn't have same team member in two of the fighting teams" do
+      it { expect(match).to be_valid }
+    end
+
+    context "same team can participate in multiple matches" do
       before do
-        match.team_1.users << user
+        # TODO it works! but clean that mess
+        match.team_1.users << build(:user)
+        match.team_1.users << build(:user)
         match.team_2.users << build(:user)
+        match.team_2.users << build(:user)
+        match2.team_1 = match.team_1
+        match2.team_2.users << build(:user)
       end
       it { expect(match).to be_valid }
+      it { expect(match2).to be_valid}
     end
   end
 
-  describe "with valid attributes" do
+  describe "with invalid attributes" do
+    before do
+      match.team_1.users << user
+      match.team_1.users << build(:user)
+      match.team_2.users << build(:user)
+      match.team_2.users << build(:user)
+    end
     context "points for team 1 is not present" do
       before do
         match.points_for_team1 = nil
@@ -48,18 +71,17 @@ RSpec.describe Match do
 
     context "has same team member in two of the fighting teams" do
       before do
-        match.team_1.users << user
         match.team_2.users << user
       end
       it { expect(match).not_to be_valid }
     end
 
-    context "there is an empty team" # do
-    #   before do
-    #     match.team_1.users.clear
-    #   end
-    #   it { expect(match).not_to be_valid }
-    # end
+    context "there is an empty team" do
+      before do
+        match.team_1.users.clear
+      end
+      it { expect(match).not_to be_valid }
+    end
 
     context "doesn't have type" do
       before do
