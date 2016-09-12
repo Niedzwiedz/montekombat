@@ -8,8 +8,7 @@ RSpec.describe Match do
     before do
       match.team_1.users << user
       match.team_1.users << build(:user)
-      match.team_2.users << build(:user)
-      match.team_2.users << build(:user)
+      match.team_2.users << build_list(:user, 2)
     end
     it "" do
       expect(match).to be_valid
@@ -21,16 +20,13 @@ RSpec.describe Match do
 
     context "same team can participate in multiple matches" do
       before do
-        # TODO it works! but clean that mess
-        match.team_1.users << build(:user)
-        match.team_1.users << build(:user)
-        match.team_2.users << build(:user)
-        match.team_2.users << build(:user)
+        match.team_1.users << build_list(:user, 2)
+        match.team_2.users << build_list(:user, 2)
         match2.team_1 = match.team_1
         match2.team_2.users << build(:user)
       end
       it { expect(match).to be_valid }
-      it { expect(match2).to be_valid}
+      it { expect(match2).to be_valid }
     end
   end
 
@@ -38,8 +34,7 @@ RSpec.describe Match do
     before do
       match.team_1.users << user
       match.team_1.users << build(:user)
-      match.team_2.users << build(:user)
-      match.team_2.users << build(:user)
+      match.team_2.users << build_list(:user, 2)
     end
     context "points for team 1 is not present" do
       before do
