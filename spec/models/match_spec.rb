@@ -5,11 +5,6 @@ RSpec.describe Match do
   let(:match) { build(:match) }
   let(:match2) { build(:match) }
   context "with valid attributes" do
-    before do
-      # match.team_1.users << user
-      # match.team_1.users << build(:user)
-      # match.team_2.users << build_list(:user, 2)
-    end
     context "doesn't have same team member in two of the fighting teams" do
       it { expect(match).to be_valid }
     end
