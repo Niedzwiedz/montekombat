@@ -1,4 +1,4 @@
-class Game < ActiveRecord::Base
+class Game < ApplicationRecord
   has_many :matches
   mount_uploader :game_picture, GamePictureUploader
 

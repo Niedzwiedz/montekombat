@@ -6,14 +6,10 @@ RSpec.describe Match do
   let(:match2) { build(:match) }
   context "with valid attributes" do
     before do
-      match.team_1.users << user
-      match.team_1.users << build(:user)
-      match.team_2.users << build_list(:user, 2)
+      # match.team_1.users << user
+      # match.team_1.users << build(:user)
+      # match.team_2.users << build_list(:user, 2)
     end
-    it "" do
-      expect(match).to be_valid
-    end
-
     context "doesn't have same team member in two of the fighting teams" do
       it { expect(match).to be_valid }
     end
@@ -67,27 +63,6 @@ RSpec.describe Match do
     context "has same team member in two of the fighting teams" do
       before do
         match.team_2.users << user
-      end
-      it { expect(match).not_to be_valid }
-    end
-
-    context "there is an empty team" do
-      before do
-        match.team_1.users.clear
-      end
-      it { expect(match).not_to be_valid }
-    end
-
-    context "doesn't have type" do
-      before do
-        match.match_type = nil
-      end
-      it { expect(match).not_to be_valid }
-    end
-
-    context "doesn't have status" do
-      before do
-        match.status = nil
       end
       it { expect(match).not_to be_valid }
     end

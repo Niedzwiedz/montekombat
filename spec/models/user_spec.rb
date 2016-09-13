@@ -1,12 +1,12 @@
 require "rails_helper"
 
 RSpec.describe User do
-  let(:user) { build(:user) }
+  let(:user) { create(:user) }
 
   context "with valid attributes" do
     context "can be member of multiple teams" do
       before do
-        user.teams << create_list(:team, 2)
+        user.teams << create_list(:team_with_users, 2)
       end
       it { expect(user).to be_valid }
     end
@@ -61,13 +61,6 @@ RSpec.describe User do
     context "doesn't have lastname" do
       before do
         user.lastname = nil
-      end
-      it { expect(user).not_to be_valid }
-    end
-
-    context "doesn't have account type" do
-      before do
-        user.account_type = nil
       end
       it { expect(user).not_to be_valid }
     end

@@ -4,7 +4,7 @@ RSpec.describe Game do
   let(:game) { build(:game) }
   context "with valid attributes" do
     it "has name" do
-      expect(game.name).to be_present
+      expect(game).to be_valid
     end
 
     it "has picture" do

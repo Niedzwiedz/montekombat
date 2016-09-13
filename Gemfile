@@ -31,6 +31,9 @@ gem "jbuilder", "~> 2.5"
 # gem 'capistrano-rails', group: :development
 gem "carrierwave", ">= 1.0.0.beta", "< 2.0"
 gem "mini_magick"
+gem "bootstrap", "~> 4.0.0.alpha4"
+gem "sprockets-rails", require: "sprockets/railtie"
+gem "slim-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -38,6 +41,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem "faker"
+  gem "pry-rails"
 end
 
 group :development do
@@ -51,5 +55,8 @@ group :development do
   gem "rubocop-rspec"
 end
 
+group :test do
+  gem "shoulda-matchers", "~> 3.1"
+end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
