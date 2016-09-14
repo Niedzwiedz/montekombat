@@ -1,0 +1,11 @@
+= @match.errors.full_messages.first if @match.errors.any?
+= form_for @match do |f|
+  |  Game: 
+  = f.select :game_id, options_from_collection_for_select(Game.all, :id, :name)
+  |  Type: 
+  =  f.select :match_type, Match.match_types.keys.to_a
+  |  Teams: 
+  = f.select :team_1_id, options_from_collection_for_select(Team.all, :id, :name)
+  |  vs 
+  = f.select :team_2_id, options_from_collection_for_select(Team.all, :id, :name)
+  = f.submit
