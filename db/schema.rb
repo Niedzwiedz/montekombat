@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160905122621) do
     t.string  "lastname"
     t.string  "password"
     t.integer "account_type", default: 0
+    t.index ["username", "email"], name: "index_users_on_username_and_email", unique: true, using: :btree
   end
 
 end
