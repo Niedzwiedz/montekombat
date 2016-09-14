@@ -6,7 +6,7 @@ RSpec.describe User do
   context "with valid attributes" do
     context "can be member of multiple teams" do
       before do
-        user.teams << create_list(:team_with_users, 2)
+        user.teams << create_list(:team, 2)
       end
       it { expect(user).to be_valid }
     end

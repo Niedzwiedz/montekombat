@@ -29,13 +29,4 @@ class Match < ApplicationRecord
       errors[:player] << "Same player can't be a member of both teams"
     end
   end
-
-  # Validate that empty team
-  def empty_team_if_exist
-    empty_teams_check if team_1.present? && team_2.present?
-  end
-
-  def empty_teams_check
-    errors[:team] << "There is an empty team" if team_1.users.empty? || team_2.users.empty?
-  end
 end

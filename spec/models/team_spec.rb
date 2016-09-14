@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Team do
   let(:user) { build(:user, username: "somename") }
-  let(:team) { build(:team_with_users, name: "somename") }
+  let(:team) { build(:team, name: "somename") }
   let(:match) { build(:match) }
   context "with valid attributes" do
     before do
@@ -10,7 +10,7 @@ RSpec.describe Team do
     end
     context "has unique name" do
       before do
-        create(:team_with_users, name: "somename")
+        create(:team, name: "somename")
       end
       it { expect(team).not_to be_valid }
     end
@@ -26,7 +26,7 @@ RSpec.describe Team do
   describe "with invalid attributes" do
     context "doesn't have unique name" do
       before do
-        create(:team_with_users, name: "somename")
+        create(:team, name: "somename")
       end
       it { expect(team).not_to be_valid }
     end
