@@ -16,14 +16,14 @@ ActiveRecord::Schema.define(version: 20160905122621) do
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
-    t.string "name"
+    t.string "name",         null: false
     t.string "game_picture"
   end
 
   create_table "matches", force: :cascade do |t|
-    t.integer  "game_id"
-    t.integer  "team_1_id"
-    t.integer  "team_2_id"
+    t.integer  "game_id",                      null: false
+    t.integer  "team_1_id",                    null: false
+    t.integer  "team_2_id",                    null: false
     t.integer  "points_for_team1", default: 0
     t.integer  "points_for_team2", default: 0
     t.datetime "date"
@@ -35,8 +35,9 @@ ActiveRecord::Schema.define(version: 20160905122621) do
   end
 
   create_table "team_users", force: :cascade do |t|
-    t.integer "team_id"
-    t.integer "user_id"
+    t.integer "team_id", null: false
+    t.integer "user_id", null: false
+    t.index ["team_id", "user_id"], name: "index_team_users_on_team_id_and_user_id", unique: true, using: :btree
     t.index ["team_id"], name: "index_team_users_on_team_id", using: :btree
     t.index ["user_id"], name: "index_team_users_on_user_id", using: :btree
   end
@@ -46,7 +47,7 @@ ActiveRecord::Schema.define(version: 20160905122621) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string  "username"
+    t.string  "username",                 null: false
     t.string  "email"
     t.string  "firstname"
     t.string  "lastname"

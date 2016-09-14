@@ -3,7 +3,7 @@ class Match < ApplicationRecord
   belongs_to :team_2, class_name: "Team"
   belongs_to :game
 
-  validates_presence_of :team_1, :team_2, :points_for_team1, :points_for_team2, :match_type, :status
+  validates :team_1, :team_2, :points_for_team1, :points_for_team2, :match_type, :status, presence: true
   validate :same_player_cant_be_in_both_teams
 
   enum match_type: {
