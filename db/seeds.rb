@@ -15,24 +15,28 @@ master_of_puppets = User.create(username: "masterofpuppets", email: "master@mast
 metal = Team.create(name: "metal fans")
 metallica = Team.create(name: "metallica fans")
 music = Team.create(name: "music fans")
-Team.create(name: "polish reaggae fans")
 no = Team.create(name: "no fans")
 
-TeamUser.create(team: metallica, user: killem_all)
-TeamUser.create(team: metallica, user: master_of_puppets)
-TeamUser.create(team: metallica, user: ride_the_lightning)
+metal.users << master_of_puppets
+no.users << ride_the_lightning
+metallica.users << load
+music.users << killem_all
 
-TeamUser.create(team: metal, user: master_of_puppets)
-TeamUser.create(team: metal, user: killem_all)
+# TeamUser.create(team: metallica, user: killem_all)
+# TeamUser.create(team: metallica, user: master_of_puppets)
+# TeamUser.create(team: metallica, user: ride_the_lightning)
 
-TeamUser.create(team: music, user: killem_all)
-TeamUser.create(team: music, user: master_of_puppets)
+# TeamUser.create(team: metal, user: master_of_puppets)
+# TeamUser.create(team: metal, user: killem_all)
 
-TeamUser.create(team: no, user: reload)
-TeamUser.create(team: no, user: load)
+# TeamUser.create(team: music, user: killem_all)
+# TeamUser.create(team: music, user: master_of_puppets)
+
+# TeamUser.create(team: no, user: reload)
+# TeamUser.create(team: no, user: load)
+
 
 mkx = Game.create(name: "Mortal Kombat X")
 fifa = Game.create(name: "Fifa 2016")
 
 Match.create(game: mkx, team_1: metal, team_2: no)
-Match.create(game: fifa, team_1: metallica, team_2: no)

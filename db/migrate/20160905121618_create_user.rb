@@ -8,6 +8,7 @@ class CreateUser < ActiveRecord::Migration[5.0]
       t.string :password
       t.integer :account_type, default: 0
     end
-    add_index :users, [:username, :email], unique: true
+    add_index :users, :username, unique: true
+    add_index :users, :email, unique: true
   end
 end
