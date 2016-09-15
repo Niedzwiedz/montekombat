@@ -1,14 +1,13 @@
 class MatchesController < ApplicationController
+  before_action :set_match, only: [:show, :edit, :update]
   def index
     @matches = Match.all
   end
 
   def show
-    @match = Match.find(params[:id])
   end
 
   def edit
-    @match = Match.find(params[:id])
   end
 
   def new
@@ -27,7 +26,6 @@ class MatchesController < ApplicationController
   end
 
   def update
-    @match = Match.find(params[:id])
     if @match.update_attributes(match_params)
       respond_to do |format|
         format.html { redirect_to @match, notice: "Match was successfully updated." }
@@ -45,7 +43,11 @@ class MatchesController < ApplicationController
 
   private
 
+  def set_match
+    @match = Match.find(params[:id])
+  end
+
   def match_params
-    params.require(:match).permit(:game_id, :team_1_id, :team_2_id, :match_type)
+    params.require(:match).permit(:game_id, :team_1_id, :team_2_id, :points_for_team1, :points_for_team2, :date, :status, :match_type)
   end
 end
