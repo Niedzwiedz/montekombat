@@ -1,5 +1,6 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update]
+  before_action :set_games_and_teams, only: [:edit, :new]
   def index
     @matches = Match.all
   end
@@ -21,6 +22,7 @@ class MatchesController < ApplicationController
         format.html { redirect_to @match, notice: "Match was successfully created." }
       end
     else
+      flash[:error] = @match.errors.full_messages
       render :new
     end
   end
@@ -31,6 +33,7 @@ class MatchesController < ApplicationController
         format.html { redirect_to @match, notice: "Match was successfully updated." }
       end
     else
+      flash[:error] = @match.errors.full_messages
       render :edit
     end
   end
@@ -38,13 +41,18 @@ class MatchesController < ApplicationController
   def destroy
     Match.find(params[:id]).destroy
     flash[:success] = "Match deleted"
-    redirect_to matches_url
+    redirect_to matches_path
   end
 
   private
 
   def set_match
     @match = Match.find(params[:id])
+  end
+
+  def set_games_and_teams
+    @games = Game.all
+    @teams = Team.all
   end
 
   def match_params

@@ -3,61 +3,61 @@ require "rails_helper"
 RSpec.describe MatchesController do
   describe "GET #index" do
     let(:match) { create(:match) }
-    it "populates an array of matches" do
+    before do
       get :index
+    end
+    it "populates an array of matches" do
       expect(assigns(:matches)).to eq [match]
     end
     it "renders the :index view" do
-      get :index
       expect(response).to render_template("index")
     end
   end
 
   describe "GET #show" do
     let(:match) { create(:match) }
-    it "assigns the requested match to @match" do
+    before do
       get :show, params: { id: match.id }
+    end
+    it "assigns the requested match to @match" do
       expect(assigns(:match)).to eq match
     end
     it "renders the :show view" do
-      get :show, params: { id: match.id }
       expect(response).to render_template("show")
     end
   end
 
   describe "GET #new" do
-    it "assigns the new match to @match" do
+    before do
       get :new
+    end
+    it "assigns the new match to @match" do
       expect(assigns(:match)).to be_present
     end
     it "renders the :show view" do
-      get :new
       expect(response).to render_template("new")
     end
   end
 
   describe "POST #create" do
+    subject do
+      post :create, params: { match: @match.attributes }
+    end
     context "with valid attributes" do
-      let(:match) { build(:match) }
-      it "saves the match in the database" do
-        expect{
-          post :create, params: { match: match.attributes }
-        }.to change(Match, :count).by(1)
+      # let(:match) { build(:match) }
+      before do
+        @match = build(:match)
       end
-      it "redirects to match :show view" do
-        post :create, params: { match: match.attributes }
-        expect(response).to redirect_to Match.last
-      end
+      it { expect { subject }.to change{ Match.count }.by(1) }
+      it { subject; expect(response).to redirect_to Match.last }
     end
     context "with invalid attributes" do
-      let(:invalid_match) { build(:invalid_match) }
-      it "does not save match to database" do
-        expect{
-          post :create, params: { match: invalid_match.attributes }
-        }.not_to change(Match, :count)
+      before do
+        @match = build(:invalid_match)
       end
+      it { expect { subject }.not_to change { Match.count } }
       it "renders :new template" do
-        post :create, params: { match: invalid_match.attributes }
+        subject
         expect(response).to render_template :new
       end
     end
@@ -66,54 +66,45 @@ RSpec.describe MatchesController do
   describe "POST #update" do
     let(:match) { create(:match, points_for_team1: 666) }
     context "with valid attributes" do
+      before do
+        @match_in = build(:match, points_for_team1: 10)
+        put :update, params: { id: match.id, match: @match_in.attributes }
+      end
       it "locates requested match" do
-        match_in = build(:match)
-        put :update, params: { id: match.id, match: match_in.attributes }
         expect(assigns(:match)).to eq(match)
       end
       it "changes match" do
-        match_in = build(:match, points_for_team1: 10)
-        put :update, params: { id: match.id, match: match_in.attributes }
         match.reload
         expect(match.points_for_team1).to eq(10)
       end
       it "redirects to uploaded match" do
-        match_in = build(:match)
-        put :update, params: { id: match.id, match: match_in.attributes }
-        expect(response).to redirect_to match
+        expect(response).to redirect_to @match
       end
     end
     context "with invalid attributes" do
-      it "locates requested match" do
-        match_in = build(:invalid_match)
-        put :update, params: { id: match.id, match: match_in.attributes }
-        expect(assigns(:match)).to eq(match)
+      before do
+        @match_in = build(:match, points_for_team1: nil)
+        put :update, params: { id: match.id, match: @match_in.attributes }
       end
+      subject { assigns(:match) }
+      it { is_expected.to eq(match) }
       it "does not change match" do
-        match_in = build(:match, points_for_team1: nil)
-        put :update, params: { id: match.id, match: match_in.attributes }
         match.reload
         expect(match.points_for_team1).not_to eq(10)
       end
-      it "rerenders the edit" do
-        match_in = build(:invalid_match)
-        put :update, params: { id: match.id, match: match_in.attributes }
-        expect(response).to render_template :edit
-      end
+      it { expect(response).to render_template :edit }
     end
   end
 
   describe "DELETE #destroy" do
     before do
+      binding.pry
       @match = create(:match)
     end
-    it "deletes match" do
-      expect {
-        delete :destroy, params: { id: @match.id }
-      }.to change(Match, :count)
-    end
+    subject { delete :destroy, params: { id: @match.id } }
+    it { expect { subject }.to change(Match, :count) }
     it "redirects to match" do
-      delete :destroy, params: { id: @match.id }
+      subject
       expect(response).to redirect_to matches_url
     end
   end
