@@ -11,11 +11,11 @@ TeamUser.delete_all
 Match.delete_all
 Game.delete_all
 
-load = User.create(username: "load", email: "load@metallica.com", firstname: "load", lastname: "metallica")
-reload = User.create(username: "reload", email: "re@load.com", firstname: "re", lastname: "load")
-killem_all = User.create(username: "killemall", email: "kill@emall.com", firstname: "kill", lastname: "emall")
-master_of_puppets = User.create(username: "masterofpuppets", email: "master@master.com", firstname: "master", lastname: "ofpupets")
-ride_the_lightning = User.create(username: "ridethelightning", email: "ride@thelightning.com", firstname: "ride", lastname: "thelightning")
+load = User.create(username: "load", email: "load@metallica.com", firstname: "load", lastname: "metallica", password: "asd", password_salt: "das")
+reload = User.create(username: "reload", email: "re@load.com", firstname: "re", lastname: "load", password: "load", password_salt: "doal")
+killem_all = User.create(username: "killemall", email: "kill@emall.com", firstname: "kill", lastname: "emall", password: "killem all", password_salt: "lla mellik")
+master_of_puppets = User.create(username: "masterofpuppets", email: "master@master.com", firstname: "master", lastname: "ofpupets", password: "master of puppets", password_salt: "steppup fo retsam")
+ride_the_lightning = User.create(username: "ridethelightning", email: "ride@thelightning.com", firstname: "ride", lastname: "thelightning", password: "ride the lightning", password_salt: "adfadfa")
 
 no = Team.create(name: "no fans", users: [load])
 metal = Team.create(name: "metal fans", users: [master_of_puppets])

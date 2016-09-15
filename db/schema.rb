@@ -47,12 +47,13 @@ ActiveRecord::Schema.define(version: 20160905122621) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string  "username",                 null: false
-    t.string  "email"
+    t.string  "username",                  null: false
+    t.string  "email",                     null: false
     t.string  "firstname"
     t.string  "lastname"
     t.string  "password"
-    t.integer "account_type", default: 0
+    t.string  "password_salt"
+    t.integer "account_type",  default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
