@@ -98,7 +98,6 @@ RSpec.describe MatchesController do
 
   describe "DELETE #destroy" do
     before do
-      binding.pry
       @match = create(:match)
     end
     subject { delete :destroy, params: { id: @match.id } }
