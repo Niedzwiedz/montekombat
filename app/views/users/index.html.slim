@@ -1,0 +1,22 @@
+h1 Users List
+
+table.table-inverse
+  thead
+    th username
+    th email
+    th firstname
+    th lastname
+    th actions
+  tbody
+    - @users.each do |user|
+      tr
+        td= user.username
+        td= user.email
+        td= user.firstname
+        td= user.lastname
+        td
+          = link_to "show", user
+        td
+          = link_to "edit", edit_user_path(user)
+        td
+          = link_to "delete", user, method: :delete, data: { confirm: "You sure?" }

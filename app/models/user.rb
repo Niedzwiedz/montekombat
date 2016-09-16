@@ -13,4 +13,8 @@ class User < ApplicationRecord
     normal: 0,
     admin: 1,
   }
+
+  has_secure_password
+
+  validates :password, presence: true, length: { minimum: 6, maximum: 40 }
 end
