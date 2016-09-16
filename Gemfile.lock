@@ -128,6 +128,10 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.0.1)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.1)
+      actionpack (~> 5.x)
+      actionview (~> 5.x)
+      activesupport (~> 5.x)
     rails-dom-testing (2.0.1)
       activesupport (>= 4.2.0, < 6.0)
       nokogiri (~> 1.6.0)
@@ -225,21 +229,22 @@ DEPENDENCIES
   byebug
   carrierwave (>= 1.0.0.beta, < 2.0)
   coffee-rails (~> 4.2)
-  factory_girl_rails
-  faker
+  factory_girl_rails (~> 4.7.0)
+  faker (~> 1.6.6)
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
-  mini_magick
+  mini_magick (~> 4.5.1)
   pg
-  pry-rails
+  pry-rails (~> 0.3.4)
   puma (~> 3.0)
   rails (~> 5.0.0)
-  rspec-rails
-  rubocop
-  rubocop-rspec
+  rails-controller-testing (~> 1.0.1)
+  rspec-rails (~> 3.5.2)
+  rubocop (~> 0.42.0)
+  rubocop-rspec (~> 1.7.0)
   sass-rails (~> 5.0)
-  slim-rails
+  slim-rails (~> 3.1.1)
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets-rails

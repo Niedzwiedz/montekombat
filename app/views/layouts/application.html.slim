@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title
+      | Montekombat
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    .container
+      = link_to "Match list", matches_path
+      | ||
+      = link_to "New match", new_match_path
+      = yield

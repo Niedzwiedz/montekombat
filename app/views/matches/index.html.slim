@@ -1,0 +1,37 @@
+h1
+  | All Matches
+table.table-inverse
+  thead
+    th Game
+    th Type
+    th First team
+    th
+    th Second team
+    th Status
+    th Points
+  tbody
+    - @matches.each do |match|
+      tr
+        td
+          = match.game.name
+          | :
+        td
+          = match.match_type
+        td
+          = match.team_1.name
+        td vs
+        td
+          = match.team_2.name
+          | vs
+        td
+          = match.status
+        td
+          = match.points_for_team1
+          |  :
+          = match.points_for_team2
+        td
+          = link_to "show", match
+        td
+          = link_to "edit", edit_match_path(match)
+        td
+          = link_to "delete", match, method: :delete, data: { confirm: "You sure?" }
