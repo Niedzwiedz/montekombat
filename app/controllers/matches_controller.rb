@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update]
   def index
-    @matches = Match.includes(:game, :team_1, :team_2).all
+    @matches = Match.includes(:game, :team_1, :team_2)
   end
 
   def show

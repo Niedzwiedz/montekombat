@@ -84,8 +84,8 @@ RSpec.describe MatchesController do
   end
 
   describe "DELETE #destroy" do
-    before { @match = create(:match) }
-    subject { delete :destroy, params: { id: @match.id } }
+    subject { delete :destroy, params: { id: match.id } }
+    let!(:match) { create(:match) }
     it { expect { subject }.to change(Match, :count) }
     it "redirects to match" do
       subject
