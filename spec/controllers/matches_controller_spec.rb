@@ -3,9 +3,7 @@ require "rails_helper"
 RSpec.describe MatchesController do
   describe "GET #index" do
     let(:match) { create(:match) }
-    before do
-      get :index
-    end
+    before { get :index }
     it "populates an array of matches" do
       expect(assigns(:matches)).to eq [match]
     end
@@ -16,9 +14,7 @@ RSpec.describe MatchesController do
 
   describe "GET #show" do
     let(:match) { create(:match) }
-    before do
-      get :show, params: { id: match.id }
-    end
+    before { get :show, params: { id: match.id } }
     it "assigns the requested match to @match" do
       expect(assigns(:match)).to eq match
     end
@@ -28,9 +24,7 @@ RSpec.describe MatchesController do
   end
 
   describe "GET #new" do
-    before do
-      get :new
-    end
+    before { get :new }
     it "assigns the new match to @match" do
       expect(assigns(:match)).to be_present
     end
@@ -40,21 +34,14 @@ RSpec.describe MatchesController do
   end
 
   describe "POST #create" do
-    subject do
-      post :create, params: { match: @match.attributes }
-    end
+    subject { post :create, params: { match: match.attributes } }
     context "with valid attributes" do
-      # let(:match) { build(:match) }
-      before do
-        @match = build(:match)
-      end
-      it { expect { subject }.to change{ Match.count }.by(1) }
+      let(:match) { build(:match) }
+      it { expect { subject }.to change { Match.count }.by(1) }
       it { subject; expect(response).to redirect_to Match.last }
     end
     context "with invalid attributes" do
-      before do
-        @match = build(:invalid_match)
-      end
+      let(:match) { build(:invalid_match) }
       it { expect { subject }.not_to change { Match.count } }
       it "renders :new template" do
         subject
@@ -97,9 +84,7 @@ RSpec.describe MatchesController do
   end
 
   describe "DELETE #destroy" do
-    before do
-      @match = create(:match)
-    end
+    before { @match = create(:match) }
     subject { delete :destroy, params: { id: @match.id } }
     it { expect { subject }.to change(Match, :count) }
     it "redirects to match" do

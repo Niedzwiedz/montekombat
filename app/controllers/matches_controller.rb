@@ -1,6 +1,5 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update]
-  before_action :set_games_and_teams, only: [:edit, :new]
   def index
     @matches = Match.includes(:game, :team_1, :team_2).all
   end
@@ -48,11 +47,6 @@ class MatchesController < ApplicationController
 
   def set_match
     @match = Match.includes(:game, :team_1, :team_2).find(params[:id])
-  end
-
-  def set_games_and_teams
-    @games = Game.all
-    @teams = Team.all
   end
 
   def match_params
