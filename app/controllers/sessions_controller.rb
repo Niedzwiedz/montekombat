@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+
   def new
   end
 
@@ -8,14 +9,14 @@ class SessionsController < ApplicationController
       log_in user
       redirect_to user
     else
-      # TODO Add error messages
-      flash[:error] = "Incorrect data"
+      flash[:error] = "Username or password not correct."
       render :new
     end
   end
 
   def destroy
     log_out
-    redirect_to root_url
+    redirect_to root_path
   end
+
 end

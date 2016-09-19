@@ -23,12 +23,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in user
+      log_in @user
       respond_to do |format|
         format.html { redirect_to @user, notice: "User signed up."}
       end
     else
-      flash[:error] = @user.errors.full_messages
       render :new
     end
   end
@@ -39,7 +38,6 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: "Account updated."}
       end
     else
-      flash[:error] = @user.errors.full_messages
       render :edit
     end
   end
@@ -73,6 +71,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :firstname, :lastname, :password, :email)
+    params.require(:user).permit(:username, :firstname, :lastname, :password, :password_confirmation, :email)
   end
 end

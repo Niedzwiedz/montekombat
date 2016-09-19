@@ -25,4 +25,8 @@ html
         = link_to "#{current_user.username}", edit_user_path(current_user)
         | ||
         = link_to "logout", logout_path, method: 'delete'
+      - if !flash.empty?
+      - flash.keys.each do |k|
+        .notice
+          = flash[k]
       = yield
