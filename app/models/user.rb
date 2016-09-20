@@ -14,5 +14,12 @@ class User < ApplicationRecord
     admin: 1,
   }
 
+  def member?(tournament)
+    Tournament.joins(:teams).each do |tourn|
+      return true if tourn == tournament
+    end
+    false
+  end
+
   has_secure_password
 end

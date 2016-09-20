@@ -19,6 +19,16 @@ RSpec.describe User do
       end
       it { expect(user.admin?).to eq(true) }
     end
+
+    context "#member? method" do
+      before do
+        @tournament = create(:tournament)
+        team = create(:team)
+        team.tournaments << @tournament
+        user.teams << team
+      end
+      it { expect(user.member?(@tournament)).to eq(true) }
+    end
   end
 
   context "with invalid attributes" do
