@@ -17,4 +17,8 @@ FactoryGirl.define do
       end
     end
   end
+
+  factory :invalid_tournament, parent: :tournament do
+    title nil
+  end
 end

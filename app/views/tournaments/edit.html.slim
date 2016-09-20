@@ -1,0 +1,16 @@
+= render 'shared/error_messages', object: @tournament
+
+= form_for @tournament do |f|
+  | Tournament:
+  = f.select :game_id, options_from_collection_for_select(games, :id, :name)
+  | Title:
+  = f.text_field :title
+  | Description:
+  = f.text_field :description
+  | Type:
+  = f.select :tournament_type, Tournament.tournament_types.keys.to_a
+  | Number of teams:
+  = f.number_field :number_of_teams
+  | Number of players in team:
+  = f.number_field :number_of_players_in_team
+  = f.submit

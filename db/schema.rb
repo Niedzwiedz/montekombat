@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20160919141153) do
     t.integer  "status",                    default: 0
     t.integer  "tournament_type",           default: 0
     t.integer  "number_of_players_in_team",             null: false
+    t.text     "description"
     t.datetime "start_date",                            null: false
     t.index ["creator_id"], name: "index_tournaments_on_creator_id", using: :btree
     t.index ["game_id"], name: "index_tournaments_on_game_id", using: :btree

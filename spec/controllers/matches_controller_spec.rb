@@ -89,7 +89,7 @@ RSpec.describe MatchesController do
     it { expect { subject }.to change(Match, :count) }
     it "redirects to match" do
       subject
-      expect(response).to redirect_to matches_url
+      expect(response).to redirect_to matches_path
     end
   end
 end
