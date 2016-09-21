@@ -10,6 +10,7 @@ class CreateTournament < ActiveRecord::Migration[5.0]
       t.integer :number_of_players_in_team, null: false
       t.text :description
       t.datetime :start_date, null: false
+      t.string :tournament_picture
     end
   end
 end

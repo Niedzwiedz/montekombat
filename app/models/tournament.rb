@@ -1,4 +1,6 @@
 class Tournament < ApplicationRecord
+  mount_uploader :tournament_picture, TournamentPictureUploader
+
   belongs_to :game
   belongs_to :creator, class_name: "User"
   has_many :tournament_teams

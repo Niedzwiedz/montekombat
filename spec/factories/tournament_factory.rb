@@ -6,19 +6,20 @@ FactoryGirl.define do
     number_of_teams { Faker::Number.digit }
     number_of_players_in_team { Faker::Number.digit }
     start_date { Faker::Time.between(DateTime.now - 1, DateTime.now) }
-  end
+    tournament_picture { Rack::Test::UploadedFile.new(File.join(Rails.root, "spec", "support", "images", "bear.jpg")) }
 
-  factory :tournament_teams, parent: :tournament do
-    number_of_teams 5
-    number_of_players_in_team 3
-    after(:build) do |tournament|
-      5.times do
-        tournament.teams << create(:team)
+    trait :with_5_teams do
+      number_of_teams 5
+      number_of_players_in_team 3
+      after(:build) do |tournament|
+        5.times do
+          tournament.teams << create(:team)
+        end
       end
     end
-  end
 
-  factory :invalid_tournament, parent: :tournament do
-    title nil
+    trait :without_title do
+      title nil
+    end
   end
 end

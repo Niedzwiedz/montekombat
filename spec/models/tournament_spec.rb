@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Tournament do
 
   context "with valid attributes" do
-    let(:tournament) { build(:tournament_teams) }
+    let(:tournament) { build(:tournament, :with_5_teams) }
     it { expect(tournament).to be_valid }
     # status and type validation test
     it { expect(tournament.open?).to be(true) }
@@ -30,7 +30,7 @@ RSpec.describe Tournament do
 
   context "with invalid attributes" do
     context "without title" do
-      let(:tournament) { build(:tournament, title: nil) }
+      let(:tournament) { build(:tournament, :without_title) }
       it { expect(tournament).not_to be_valid }
     end
 
@@ -55,12 +55,12 @@ RSpec.describe Tournament do
     end
 
     context "number of teams in tournament exceeds specified value" do
-      let(:tournament_teams) { build(:tournament_teams, number_of_teams: 4) }
-      it { expect(tournament_teams).not_to be_valid }
+      let(:tournament) { build(:tournament, :with_5_teams, number_of_teams: 4) }
+      it { expect(tournament).not_to be_valid }
     end
 
     context "number of players in teams exceeds specified value" do
-      let(:tournament) { build(:tournament_teams, number_of_players_in_team: 2) }
+      let(:tournament) { build(:tournament, :with_5_teams, number_of_players_in_team: 2) }
       it { expect(tournament).not_to be_valid }
     end
   end
