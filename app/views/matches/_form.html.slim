@@ -1,7 +1,4 @@
-- if @match.errors.any?
-  ul
-    - @match.errors.full_messages.each do |msg|
-      li= msg
+= render 'shared/error_messages', object: @match
 
 = form_for @match do |f|
   | Game:
