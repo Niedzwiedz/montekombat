@@ -20,7 +20,7 @@ RSpec.describe User do
       it { expect(user.admin?).to eq(true) }
     end
 
-    context "#member? method" do
+    context "has #member? method" do
       before do
         @tournament = create(:tournament)
         team = create(:team)

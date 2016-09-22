@@ -18,8 +18,26 @@ FactoryGirl.define do
       end
     end
 
+    trait :started do
+      status "started"
+    end
+
+    trait :ended do
+      status "ended"
+    end
+
     trait :without_title do
       title nil
     end
+
+    trait :without_game do
+      game nil
+    end
+
+    trait :without_owner do
+      creator nil
+    end
+
+    trait :without
   end
 end

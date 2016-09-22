@@ -45,6 +45,10 @@ group :development, :test do
   gem "pry-rails", "~> 0.3.4"
 end
 
+group :test do
+  gem "database_cleaner"
+end
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem "web-console"

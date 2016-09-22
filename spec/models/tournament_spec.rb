@@ -35,22 +35,22 @@ RSpec.describe Tournament do
     end
 
     context "without game" do
-      let(:tournament) { build(:tournament, game: nil) }
+      let(:tournament) { build(:tournament, :without_game) }
       it { expect(tournament).not_to be_valid }
     end
 
     context "without owner" do
-      let(:tournament) { build(:tournament, creator: nil) }
+      let(:tournament) { build(:tournament, :without_owner) }
       it { expect(tournament).not_to be_valid }
     end
 
     context "without teams" do
-      let(:tournament) { build(:tournament, number_of_teams: nil) }
+      let(:tournament) { build(:tournament, :with_5_teams, number_of_teams: nil) }
       it { expect(tournament).not_to be_valid }
     end
 
     context "without number of players in teams" do
-      let(:tournament) { build(:tournament, number_of_players_in_team: nil) }
+      let(:tournament) { build(:tournament, :with_5_teams, number_of_players_in_team: nil) }
       it { expect(tournament).not_to be_valid }
     end
 

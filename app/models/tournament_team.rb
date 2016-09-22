@@ -3,13 +3,17 @@ class TournamentTeam < ApplicationRecord
   belongs_to :team
   validates :tournament, :team, presence: true
 
-  validate :cannot_be_too_many_players
+  validate :too_many_players
 
   private
 
+  def too_many_players
+    cannot_be_too_many_players if tournament.number_of_players_in_team.present? && team.users.size.present?
+  end
+
   def cannot_be_too_many_players
     if team.users.size > tournament.number_of_players_in_team
-      errors[:tournament] << "#{team} has too many players."
+      errors[:tournament] << "Team has too many players."
     end
   end
 end
