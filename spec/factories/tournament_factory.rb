@@ -37,7 +37,5 @@ FactoryGirl.define do
     trait :without_owner do
       creator nil
     end
-
-    trait :without
   end
 end

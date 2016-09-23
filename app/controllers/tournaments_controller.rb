@@ -1,10 +1,10 @@
 class TournamentsController < ApplicationController
-  before_action :set_tournament, only: [:show, :edit, :update, :user_is_creator,
+  before_action :set_tournament, only: [:show, :edit, :update, :check_if_user_is_creator,
                                         :destroy]
 
-  before_action :logged_in_user, only: [:new, :create, :user_is_creator]
+  before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
 
-  before_action :user_is_creator, only: [:edit, :update, :destroy]
+  before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
   def index
     @tournaments = Tournament.all
   end
@@ -37,10 +37,6 @@ class TournamentsController < ApplicationController
 
   def update
     unless @tournament.ended?
-      # ------------------------------------------------------------------
-      # edit_params(tournament) - changes params that can be edited dependant on
-      # tournament status. Needs tests.
-      # ------------------------------------------------------------------
       if @tournament.update_attributes(edit_params(@tournament))
         respond_to do |format|
           format.html do
@@ -71,16 +67,16 @@ class TournamentsController < ApplicationController
     @tournament = Tournament.find(params[:id])
   end
 
-  def logged_in_user
+  def check_if_logged_in_user
     unless logged_in?
       flash[:danger] = "Please log in."
       redirect_to login_path
     end
   end
 
-  def user_is_creator
+  def check_if_user_is_creator
     creator_id = @tournament.creator.id
-    redirect_to root_path if current_user.id != creator_id and !current_user.admin?
+    redirect_to root_path if current_user.id != creator_id && !current_user.admin?
   end
 
   def tournament_params
@@ -93,6 +89,10 @@ class TournamentsController < ApplicationController
     params.require(:tournament).permit(:title, :description)
   end
 
+  # ------------------------------------------------------------------
+  # edit_params(tournament) - changes params that can be edited
+  # dependant on tournament status.
+  # ------------------------------------------------------------------
   def edit_params(tournament)
     if tournament.open?
       tournament_params

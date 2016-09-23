@@ -232,7 +232,7 @@ DEPENDENCIES
   byebug
   carrierwave (>= 1.0.0.beta, < 2.0)
   coffee-rails (~> 4.2)
-  database_cleaner
+  database_cleaner (~> 1.5.3)
   factory_girl_rails (~> 4.7.0)
   faker (~> 1.6.6)
   jbuilder (~> 2.5)
