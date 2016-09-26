@@ -3,8 +3,8 @@ FactoryGirl.define do
     game { create :game }
     creator { create :user }
     title { Faker::Pokemon.name }
-    number_of_teams { Faker::Number.digit }
-    number_of_players_in_team { Faker::Number.digit }
+    number_of_teams 6
+    number_of_players_in_team 6
     start_date { Faker::Time.between(DateTime.now - 1, DateTime.now) }
     tournament_picture { Rack::Test::UploadedFile.new(File.join(Rails.root, "spec", "support", "images", "bear.jpg")) }
 

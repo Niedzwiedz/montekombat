@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
-  helper_method :games, :teams, :current_user, :logged_in?
+  # protect_from_forgery with: :exception
+  helper_method :users, :games, :teams, :current_user, :logged_in?
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
 
@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
 
   def teams
     @teams ||= Team.all
+  end
+
+  def users
+    @users ||= User.all
   end
 
   def current_user

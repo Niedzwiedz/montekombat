@@ -27,14 +27,20 @@ class Tournament < ApplicationRecord
   end
 
   def player_count
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # Metoda do poprawienia, przykladowe rozwiazania:
+    # - team.where
+    # - filtrowanie
+    # - lub jakis join
+    # - tabela TournamentUser
     Team.joins(:users).size
   end
-
-  private
 
   def number_of_slots
     (number_of_players_in_team * number_of_teams)
   end
+
+  private
 
   def check_team_number
     cannot_be_too_many_teams if numbers_of_teams_and_players_specified

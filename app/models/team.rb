@@ -7,7 +7,11 @@ class Team < ApplicationRecord
 
   validates :name, uniqueness: true, length: { minimum: 3, maximum: 66 }
   validate :player_cant_be_duplicated_in_team
-  validates :users, presence: true
+  # ------------------------------------------------------------------
+  # For team form purposes commented now
+  # ------------------------------------------------------------------
+
+  # validates :users, presence: true
 
   private
 
