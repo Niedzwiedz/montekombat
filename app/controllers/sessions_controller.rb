@@ -18,5 +18,4 @@ class SessionsController < ApplicationController
     log_out
     redirect_to root_path
   end
-
 end

@@ -3,8 +3,10 @@ class Tournament < ApplicationRecord
 
   belongs_to :game
   belongs_to :creator, class_name: "User"
-  has_many :tournament_teams
+  has_many :tournament_teams, inverse_of: :team
   has_many :teams, through: :tournament_teams
+
+  accepts_nested_attributes_for :tournament_teams
 
   validates :title, :game, :creator, :start_date, :number_of_teams, presence: true
   validates :number_of_players_in_team, presence: true

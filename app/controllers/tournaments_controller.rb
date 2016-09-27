@@ -2,7 +2,7 @@ class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :check_if_user_is_creator,
                                         :destroy]
 
-  before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
+  # before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
 
   before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
   def index
@@ -17,11 +17,22 @@ class TournamentsController < ApplicationController
 
   def new
     @tournament = Tournament.new
+    @tournament.teams.build
   end
 
   def create
     @tournament = Tournament.new(tournament_params)
-    @tournament.creator = current_user
+
+    # Adding teams to tournament
+    # There is probably better way
+    params[:teams].each do |param_team|
+      team = @tournament.teams.build(name: param_team[:name])
+      # build users in team
+      param_team[:users].each do |user|
+        team.team_users.build(user_id: user[:id])
+      end
+    end
+    # @tournament.creator = current_user
     if @tournament.save
       respond_to do |format|
         format.html do
@@ -80,9 +91,13 @@ class TournamentsController < ApplicationController
   end
 
   def tournament_params
-    params.require(:tournament).permit(:game_id, :creator_id, :title, :description,
-                                       :tournament_type, :number_of_teams,
-                                       :number_of_players_in_team, :start_date)
+    params.require(:tournament_attributes).permit(:game_id, :creator_id, :title, :description,
+                                                  :tournament_type, :number_of_teams,
+                                                  :number_of_players_in_team, :start_date)
+  end
+
+  def team_params
+    params.require(:teams).permit!
   end
 
   def tournament_started_params

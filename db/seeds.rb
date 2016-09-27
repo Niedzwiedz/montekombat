@@ -28,4 +28,4 @@ fifa = Game.create(name: "Fifa 2016")
 Match.create(game: mkx, team_1: metal, team_2: music)
 Match.create(game: fifa, team_1: metallica, team_2: music)
 
-Tournament.create(game: mkx, creator: load, title: "BestTournamentEva.", number_of_teams: 6, start_date: Time.now + 2.days, teams: [no, metal], number_of_players_in_team: 3)
+Tournament.create(game: mkx, creator: load, title: "BestTournamentEva.", number_of_teams: 6, start_date: Time.now + 2.days, teams: [no, metal], number_of_players_in_team: 6)

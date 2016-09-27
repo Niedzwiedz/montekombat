@@ -5,6 +5,8 @@ class TournamentTeam < ApplicationRecord
 
   validate :players_count_in_tournament
 
+  accepts_nested_attributes_for :team
+
   private
 
   def players_count_in_tournament

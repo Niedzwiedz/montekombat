@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   helper_method :users, :games, :teams, :current_user, :logged_in?
 
-  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  # rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
 
   def render_not_found
     render file: "#{Rails.root}/public/404.html", layout: false, status: 404
