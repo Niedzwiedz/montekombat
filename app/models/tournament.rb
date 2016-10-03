@@ -3,15 +3,15 @@ class Tournament < ApplicationRecord
 
   belongs_to :game
   belongs_to :creator, class_name: "User"
-  has_many :tournament_teams, inverse_of: :team
-  has_many :teams, through: :tournament_teams
+  has_many :teams
 
-  accepts_nested_attributes_for :tournament_teams
+  accepts_nested_attributes_for :teams
 
-  validates :title, :game, :creator, :start_date, :number_of_teams, presence: true
+  validates :title, :game, :creator, :number_of_teams, presence: true
   validates :number_of_players_in_team, presence: true
   validate :check_team_number
   validate :check_player_number
+  validate :players_count_in_tournament
 
   enum status: {
     open: 0,
@@ -29,20 +29,30 @@ class Tournament < ApplicationRecord
   end
 
   def player_count
-    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    # Metoda do poprawienia, przykladowe rozwiazania:
-    # - team.where
-    # - filtrowanie
-    # - lub jakis join
-    # - tabela TournamentUser
-    Team.joins(:users).size
+    User.joins(:teams).where(teams: { tournament_id: id }).count
   end
 
   def number_of_slots
     (number_of_players_in_team * number_of_teams)
   end
 
+  def players_count_in_tournament
+    teams.each do |team|
+      players_count_in_team(team)
+    end
+  end
+
   private
+
+  def players_count_in_team(team)
+    team_max_size_check(team) if number_of_players_in_team.present? && team.users.size.present?
+  end
+
+  def team_max_size_check(team)
+    if team.users.size > number_of_players_in_team
+      errors[:tournament] << "Team has too many players."
+    end
+  end
 
   def check_team_number
     cannot_be_too_many_teams if numbers_of_teams_and_players_specified

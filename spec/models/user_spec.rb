@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe User do
   let(:tournament) { create(:tournament) }
-  let(:team) { create(:team, tournaments: [tournament]) }
+  let(:team) { create(:team, tournament: tournament) }
   let(:user) { create(:user) }
   let(:user_without_tournament) { create(:user) }
 
@@ -28,7 +28,7 @@ RSpec.describe User do
         team.users << user
         tournament.teams << team
       end
-      it { binding.pry; expect(user.tournament_member?(tournament)).to eq(true) }
+      it { expect(user.tournament_member?(tournament)).to eq(true) }
     end
   end
 

@@ -12,7 +12,7 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
     if @team.save
       respond_to do |format|
-        format.html { redirect_to matches_path, notice: "Team was successfully created." }
+        format.html { redirect_to @team, notice: "Team was successfully created." }
       end
     else
       flash[:error] = @team.errors.full_messages

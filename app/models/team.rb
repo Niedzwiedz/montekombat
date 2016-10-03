@@ -2,8 +2,7 @@ class Team < ApplicationRecord
   has_many :matches
   has_many :team_users
   has_many :users, through: :team_users
-  has_many :tournament_teams
-  has_many :tournaments, through: :tournament_teams
+  belongs_to :tournament
 
   validates :name, uniqueness: true, length: { minimum: 3, maximum: 66 }
   validate :player_cant_be_duplicated_in_team

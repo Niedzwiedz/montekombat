@@ -8,5 +8,10 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
   resources :users, only: [:index, :show, :edit, :create, :update, :destroy]
   resources :teams, only: [:edit, :update, :new, :create]
-  resources :tournaments
+  resources :tournaments do
+    collection do
+      get 'types'
+    end
+  end
+  resources :games, only: [:index]
 end

@@ -2,11 +2,18 @@ class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :check_if_user_is_creator,
                                         :destroy]
 
-  # before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
+  before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
 
   before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
   def index
     @tournaments = Tournament.all
+  end
+
+  def types
+    @types = Tournament.tournament_types.keys.to_a
+    respond_to do |format|
+      format.json { render json: @types }
+    end
   end
 
   def show
@@ -21,27 +28,19 @@ class TournamentsController < ApplicationController
   end
 
   def create
-    @tournament = Tournament.new(tournament_params)
-
-    # Adding teams to tournament
-    # There is probably better way
-    params[:teams].each do |param_team|
-      team = @tournament.teams.build(name: param_team[:name])
-      # build users in team
-      param_team[:users].each do |user|
-        team.team_users.build(user_id: user[:id])
-      end
-    end
-    # @tournament.creator = current_user
-    if @tournament.save
+    @tournament = InitializeTournament.call(tournament_params, teams_params)
+    if @tournament.instance_of? Tournament
       respond_to do |format|
         format.html do
           redirect_to @tournament,
                       notice: "Tournament was successfully created."
         end
+        format.json do
+          render json: @tournament
+        end
       end
     else
-      flash[:error] = @tournament.errors.full_messages
+      flash[:error] = @tournament.message
       render :new
     end
   end
@@ -59,6 +58,9 @@ class TournamentsController < ApplicationController
         flash[:error] = @tournament.errors.full_messages
         render :edit
       end
+    else
+      flash[:error] = "Tournament that ended can't be edited."
+      render :edit
     end
   end
 
@@ -91,12 +93,12 @@ class TournamentsController < ApplicationController
   end
 
   def tournament_params
-    params.require(:tournament_attributes).permit(:game_id, :creator_id, :title, :description,
-                                                  :tournament_type, :number_of_teams,
-                                                  :number_of_players_in_team, :start_date)
+    params.require(:tournament).permit(:game_id, :creator_id, :title, :description,
+                                       :tournament_type, :number_of_teams,
+                                       :number_of_players_in_team, :start_date)
   end
 
-  def team_params
+  def teams_params
     params.require(:teams).permit!
   end
 
