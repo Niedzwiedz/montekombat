@@ -1,10 +1,9 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :check_if_user_is_creator,
                                         :destroy]
-
   before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
-
   before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
+
   def index
     @tournaments = Tournament.all
   end
@@ -17,6 +16,9 @@ class TournamentsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.json { render json: @tournament }
+    end
   end
 
   def edit
@@ -34,9 +36,6 @@ class TournamentsController < ApplicationController
         format.html do
           redirect_to @tournament,
                       notice: "Tournament was successfully created."
-        end
-        format.json do
-          render json: @tournament
         end
       end
     else
@@ -93,7 +92,7 @@ class TournamentsController < ApplicationController
   end
 
   def tournament_params
-    params.require(:tournament).permit(:game_id, :creator_id, :title, :description,
+    params.require(:tournament).permit(:id, :game_id, :creator_id, :title, :description,
                                        :tournament_type, :number_of_teams,
                                        :number_of_players_in_team, :start_date)
   end

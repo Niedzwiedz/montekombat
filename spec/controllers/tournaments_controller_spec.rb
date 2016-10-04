@@ -8,23 +8,15 @@ RSpec.describe TournamentsController do
   describe "GET #index" do
     let(:tournament) { create(:tournament) }
     before { get :index }
-    it "populates an array of tournaments" do
-      expect(assigns(:tournaments)).to eq [tournament]
-    end
-    it "renders the :index view" do
-      expect(response).to render_template("index")
-    end
+    it { expect(assigns(:tournaments)).to eq [tournament] }
+    it { expect(response).to render_template("index") }
   end
 
   describe "GET #show" do
     let(:tournament) { create(:tournament) }
     before { get :show, params: { id: tournament.id } }
-    it "assigns the requested tournament to @tournament" do
-      expect(assigns(:tournament)).to eq tournament
-    end
-    it "renders the :show view" do
-      expect(response).to render_template("show")
-    end
+    it { expect(assigns(:tournament)).to eq tournament }
+    it { expect(response).to render_template("show") }
   end
 
   describe "GET #new" do
@@ -33,19 +25,13 @@ RSpec.describe TournamentsController do
         log_in_user
         get :new
       end
-      it "assigns the new tournament to @tournament" do
-        expect(assigns(:tournament)).to be_present
-      end
-      it "renders the :show view" do
-        expect(response).to render_template("new")
-      end
+      it { expect(assigns(:tournament)).to be_present }
+      it { expect(response).to render_template("new") }
     end
 
     context "As guest" do
       before { get :new }
-      it "redirects the login view" do
-        expect(response).to redirect_to login_path
-      end
+      it { expect(response).to redirect_to login_path }
     end
   end
   describe "POST #create" do

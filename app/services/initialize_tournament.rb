@@ -12,8 +12,8 @@ class InitializeTournament
       end
       return tournament
 
-      rescue => ex
-        return ex
+      rescue => tournament_transaction_error
+        return tournament_transaction_error
     end
 
     private

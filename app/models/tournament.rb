@@ -33,13 +33,11 @@ class Tournament < ApplicationRecord
   end
 
   def number_of_slots
-    (number_of_players_in_team * number_of_teams)
+    number_of_players_in_team * number_of_teams
   end
 
   def players_count_in_tournament
-    teams.each do |team|
-      players_count_in_team(team)
-    end
+    teams.each { |team| players_count_in_team(team) }
   end
 
   private
