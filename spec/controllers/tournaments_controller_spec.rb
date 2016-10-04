@@ -35,7 +35,8 @@ RSpec.describe TournamentsController do
     end
   end
   describe "POST #create" do
-    subject(:post_create) { post :create, params: { tournament: tournament.attributes } }
+    subject(:post_create) { post :create, params: { tournament: tournament.attributes, teams: team.attributes } }
+    let(:team) { build(:team) }
     context "As logged in user" do
       before { log_in_user }
 

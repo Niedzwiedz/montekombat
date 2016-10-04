@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   # Check if user is logged in
-  before_action :logged_in_user, only: [:index, :edit, :update]
+  before_action :logged_in_user, only: [:index, :edit, :update, :users_index]
   # Check if user has rights to change something
   before_action :correct_user, only: [:edit, :update, :destroy]
-  before_action :set_user, only: [:show, :edit, :update]
   # Administrator
   before_action :administrator, only: [:index]
+
   def index
     @users = User.all
     respond_to do |format|
@@ -14,10 +14,21 @@ class UsersController < ApplicationController
     end
   end
 
+  # Returns only usernames with indexes, so passwords and other
+  # data is safe
+  def users_index
+    @users = User.select("username, id").all
+    respond_to do |format|
+      format.json { render json: @users }
+    end
+  end
+
   def show
+    user
   end
 
   def edit
+    user
   end
 
   def new
@@ -37,9 +48,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(user_params)
+    if user.update_attributes(user_params)
       respond_to do |format|
-        format.html { redirect_to @user, notice: "Account updated."}
+        format.html { redirect_to user, notice: "Account updated."}
       end
     else
       render :edit
@@ -54,8 +65,8 @@ class UsersController < ApplicationController
 
   private
 
-  def set_user
-    @user = User.find(params[:id])
+  def user
+    @user ||= User.find(params[:id])
   end
 
   def logged_in_user

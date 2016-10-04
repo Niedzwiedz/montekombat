@@ -18,7 +18,7 @@ RSpec.describe TeamsController do
       it do
         post_create
         # Getting weird responses
-        expect(response).to redirect_to matches_path
+        expect(response).to redirect_to root_path
       end
     end
     context "with invalid attributes" do

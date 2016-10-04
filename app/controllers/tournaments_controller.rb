@@ -1,6 +1,4 @@
 class TournamentsController < ApplicationController
-  before_action :set_tournament, only: [:show, :edit, :update, :check_if_user_is_creator,
-                                        :destroy]
   before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
   before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
 
@@ -15,13 +13,19 @@ class TournamentsController < ApplicationController
     end
   end
 
-  def show
+  def teams
+    @teams = @tournament.teams
     respond_to do |format|
-      format.json { render json: @tournament }
+      format.json { render json: @teams }
     end
   end
 
+  def show
+    tournament
+  end
+
   def edit
+    tournament
   end
 
   def new
@@ -45,16 +49,16 @@ class TournamentsController < ApplicationController
   end
 
   def update
-    unless @tournament.ended?
-      if @tournament.update_attributes(edit_params(@tournament))
+    unless tournament.ended?
+      if tournament.update_attributes(edit_params(tournament))
         respond_to do |format|
           format.html do
-            redirect_to @tournament,
+            redirect_to tournament,
                         notice: "Tournament was successfully updated."
           end
         end
       else
-        flash[:error] = @tournament.errors.full_messages
+        flash[:error] = tournament.errors.full_messages
         render :edit
       end
     else
@@ -64,8 +68,8 @@ class TournamentsController < ApplicationController
   end
 
   def destroy
-    if @tournament.open?
-      @tournament.destroy
+    if tournament.open?
+      tournament.destroy
       flash[:success] = "Tournament deleted."
     else
       flash[:error] = "You can't delete tournament that has already ended."
@@ -75,8 +79,8 @@ class TournamentsController < ApplicationController
 
   private
 
-  def set_tournament
-    @tournament = Tournament.find(params[:id])
+  def tournament
+    @tournament ||= Tournament.find(params[:id])
   end
 
   def check_if_logged_in_user
@@ -87,12 +91,12 @@ class TournamentsController < ApplicationController
   end
 
   def check_if_user_is_creator
-    creator_id = @tournament.creator.id
+    creator_id = tournament.creator.id
     redirect_to root_path if current_user.id != creator_id && !current_user.admin?
   end
 
   def tournament_params
-    params.require(:tournament).permit(:id, :game_id, :creator_id, :title, :description,
+    params.require(:tournament).permit(:game_id, :creator_id, :title, :description,
                                        :tournament_type, :number_of_teams,
                                        :number_of_players_in_team, :start_date)
   end
