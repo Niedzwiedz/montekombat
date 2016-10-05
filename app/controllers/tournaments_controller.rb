@@ -1,31 +1,17 @@
 class TournamentsController < ApplicationController
-  before_action :check_if_logged_in_user, only: [:new, :create, :check_if_user_is_creator]
+  before_action :check_if_logged_in_user, only: [:new, :create,
+                                                 :check_if_user_is_creator]
   before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
 
   def index
     @tournaments = Tournament.all
   end
 
-  def types
-    @types = Tournament.tournament_types.keys.to_a
-    respond_to do |format|
-      format.json { render json: @types }
-    end
-  end
-
-  def teams
-    @teams = @tournament.teams
-    respond_to do |format|
-      format.json { render json: @teams }
-    end
-  end
-
   def show
-    tournament
+    render json: TournamentRepresenter.new(tournament)
   end
 
   def edit
-    tournament
   end
 
   def new
@@ -72,9 +58,24 @@ class TournamentsController < ApplicationController
       tournament.destroy
       flash[:success] = "Tournament deleted."
     else
-      flash[:error] = "You can't delete tournament that has already ended."
+      flash[:error] = "You can't delete tournament that has started or already ended."
     end
     redirect_to tournaments_path
+  end
+
+  # ------------------------------------------------------------------
+  # Additional actions (types, add_team)
+
+  def types
+    @types = Tournament.tournament_types.keys.to_a
+    respond_to do |format|
+      format.json { render json: @types }
+    end
+  end
+
+  def add_team
+    # create action for team
+    # return created team with id
   end
 
   private
@@ -99,6 +100,10 @@ class TournamentsController < ApplicationController
     params.require(:tournament).permit(:game_id, :creator_id, :title, :description,
                                        :tournament_type, :number_of_teams,
                                        :number_of_players_in_team, :start_date)
+  end
+
+  def team_params
+    params.require(:team).permit(:name)
   end
 
   def teams_params

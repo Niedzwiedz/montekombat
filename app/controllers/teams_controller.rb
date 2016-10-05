@@ -13,14 +13,12 @@ class TeamsController < ApplicationController
     if @team.save
       respond_to do |format|
         format.html { redirect_to root_path, notice: "Team was successfully created." }
+        format.json { render json: @team }
       end
     else
       flash[:error] = @team.errors.full_messages
       render :new
     end
-  end
-
-  def add_user
   end
 
   def update
@@ -32,6 +30,26 @@ class TeamsController < ApplicationController
       flash[:error] = team.errors.full_messages
       render :edit
     end
+  end
+
+  def destroy
+    team.destroy
+    render json: {}, status: :no_content
+  end
+
+  # Additional actions
+
+  def add_user
+    team = Team.find(params[:team_id])
+    user = User.find(params[:user_id])
+    team.users << user
+    render json: {}, status: :no_content
+  end
+
+  def remove_user
+    team = Team.find(params[:team_id])
+    team.users.find(params[:user_id]).delete
+    render json: {}, status: :no_content
   end
 
   private

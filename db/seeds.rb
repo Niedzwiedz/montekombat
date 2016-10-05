@@ -21,7 +21,7 @@ ride_the_lightning = User.create(username: "ridethelightning", email: "ride@thel
 mkx = Game.create(name: "Mortal Kombat X")
 fifa = Game.create(name: "Fifa 2016")
 
-best_tournament = Tournament.create(game: mkx, creator: load, title: "BestTournamentEva.", number_of_teams: 6, start_date: Time.now + 2.days, number_of_players_in_team: 6)
+best_tournament = Tournament.create(game: mkx, creator: reload, title: "BestTournamentEva.", number_of_teams: 6, start_date: Time.now + 2.days, number_of_players_in_team: 6)
 
 no = Team.create(name: "no fans", users: [load], tournament: best_tournament)
 metal = Team.create(name: "metal fans", users: [master_of_puppets], tournament: best_tournament)
