@@ -1,7 +1,10 @@
 require "rails_helper"
 
 RSpec.describe User do
+  let(:tournament) { create(:tournament) }
+  let(:team) { create(:team, tournament: tournament) }
   let(:user) { create(:user) }
+  let(:user_without_tournament) { create(:user) }
 
   context "with valid attributes" do
     context "can be member of multiple teams" do
@@ -18,6 +21,14 @@ RSpec.describe User do
         user.admin!
       end
       it { expect(user.admin?).to eq(true) }
+    end
+
+    context "has #tournament_member? method" do
+      before do
+        team.users << user
+        tournament.teams << team
+      end
+      it { expect(user.tournament_member?(tournament)).to eq(true) }
     end
   end
 
@@ -64,5 +75,6 @@ RSpec.describe User do
       end
       it { expect(user).not_to be_valid }
     end
+    it { expect(user_without_tournament.tournament_member?(tournament)).to be(false) }
   end
 end

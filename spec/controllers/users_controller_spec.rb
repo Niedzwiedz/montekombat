@@ -1,25 +1,15 @@
 require "rails_helper"
 
 RSpec.describe UsersController do
-  let(:valid_user) { { username: "abba",
-                       firstname: "jabba",
-                       lastname: "the hutt",
-                       email: "cos@cos",
-                       password: "password",
-                       password_confirmation: "password" } }
+  let(:valid_user) { create(:user) }
+  let(:admin_user) { create(:user, :admin) }
 
-  let(:not_valid_user) { { username: "abba",
-                           firstname: "jabba",
-                           lastname: "the hutt",
-                           email: nil,
-                           password: "password",
-                           password_confirmation: "password" } }
+  let(:not_valid_user) { create(:user, :without_email) }
 
   describe "GET #show" do
-    let(:user) { create(:user) }
-    before { get :show, params: { id: user.id } }
+    before { get :show, params: { id: valid_user.id } }
     it "assigns the requested user to @user" do
-      expect(assigns(:user)).to eq user
+      expect(assigns(:user)).to eq valid_user
     end
     it "renders the :show view" do
       expect(response).to render_template :show
@@ -38,12 +28,13 @@ RSpec.describe UsersController do
 
   describe "POST #create" do
     context "with valid attributes" do
-      subject { post :create, params: { user: valid_user } }
+      subject { post :create, params: { user: attributes_for(:user) } }
       it { expect { subject }.to change { User.count }.by(1) }
       it { subject; expect(response).to redirect_to User.last }
     end
     context "with invalid attributes" do
-      subject { post :create, params: { user: not_valid_user } }
+      subject { post :create, params: { user: attributes_for(:user, :without_email) } }
+
       it { expect { subject }.not_to change { User.count } }
       it "renders :new template" do
         subject

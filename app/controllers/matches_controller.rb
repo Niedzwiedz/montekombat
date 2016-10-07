@@ -1,13 +1,14 @@
 class MatchesController < ApplicationController
-  before_action :set_match, only: [:show, :edit, :update]
   def index
     @matches = Match.includes(:game, :team_1, :team_2)
   end
 
   def show
+    match
   end
 
   def edit
+    match
   end
 
   def new
@@ -27,12 +28,12 @@ class MatchesController < ApplicationController
   end
 
   def update
-    if @match.update_attributes(match_params)
+    if match.update_attributes(match_params)
       respond_to do |format|
-        format.html { redirect_to @match, notice: "Match was successfully updated." }
+        format.html { redirect_to match, notice: "Match was successfully updated." }
       end
     else
-      flash[:error] = @match.errors.full_messages
+      flash[:error] = match.errors.full_messages
       render :edit
     end
   end
@@ -45,8 +46,8 @@ class MatchesController < ApplicationController
 
   private
 
-  def set_match
-    @match = Match.includes(:game, :team_1, :team_2).find(params[:id])
+  def match
+    @match ||= Match.includes(:game, :team_1, :team_2).find(params[:id])
   end
 
   def match_params

@@ -1,0 +1,6 @@
+h1 Edit team
+= render 'shared/error_messages', object: @team
+
+= form_for @team do |f|
+  = f.label :name
+  = f.text_field :name

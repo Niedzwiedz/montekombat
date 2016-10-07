@@ -1,0 +1,9 @@
+h1
+  = @tournament.title
+p
+  = @tournament.game.name
+h3 Teams
+
+- @tournament.teams.each do |team|
+  ul
+    li= team.name

@@ -6,5 +6,16 @@ Rails.application.routes.draw do
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  resources :users, only: [:index, :show, :edit, :create, :update, :destroy]
+  resources :users, only: [:index, :show, :edit, :create, :update, :destroy] do
+    collection do
+      get "users_index"
+    end
+  end
+  resources :teams, only: [:edit, :update, :new, :create]
+  resources :tournaments do
+    collection do
+      get "types"
+    end
+  end
+  resources :games, only: [:index]
 end

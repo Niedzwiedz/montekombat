@@ -35,6 +35,8 @@ gem "bootstrap", "~> 4.0.0.alpha4"
 gem "sprockets-rails", require: "sprockets/railtie"
 gem "slim-rails", "~> 3.1.1"
 
+gem "vuejs-rails"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug", platform: :mri
@@ -43,6 +45,10 @@ group :development, :test do
   gem "factory_girl_rails", "~> 4.7.0"
   gem "faker", "~> 1.6.6"
   gem "pry-rails", "~> 0.3.4"
+end
+
+group :test do
+  gem "database_cleaner", "~> 1.5.3"
 end
 
 group :development do
@@ -58,3 +64,8 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# popups for bootstrap
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end

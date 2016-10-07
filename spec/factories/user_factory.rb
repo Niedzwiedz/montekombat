@@ -4,9 +4,16 @@ FactoryGirl.define do
     username { Faker::Internet.user_name }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.last_name }
-    password { Faker::Internet.password(10, 20, true) }
-  end
-  factory :invalid_user, parent: :user do |f|
-    f.email nil
+    password "aaaaaa"
+    password_confirmation "aaaaaa"
+    account_type "normal"
+
+    trait :without_email do
+      email nil
+    end
+
+    trait :admin do
+      account_type "admin"
+    end
   end
 end
