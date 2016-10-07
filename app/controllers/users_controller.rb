@@ -8,11 +8,10 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    render json: UsersRepresenter.new(@users)
-    # respond_to do |format|
-    #   format.html
-    #   format.json { render json: UserRepresenter(@users) }
-    # end
+    respond_to do |format|
+      format.html
+      format.json { render json: UsersRepresenter.new(@users)}
+    end
   end
 
   def show

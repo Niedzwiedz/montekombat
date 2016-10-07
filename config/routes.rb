@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     collection do
       get "types"
     end
-    post "/add_team", to: "tournaments#add_team"
   end
   resources :games, only: [:index]
 end

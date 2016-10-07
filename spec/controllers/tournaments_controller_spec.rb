@@ -49,8 +49,9 @@ RSpec.describe TournamentsController do
         end
       end
 
-      context "with invalid attribures" do
+      context "with invalid attributes" do
         let(:tournament) { build(:tournament, :without_title) }
+        # In browser it works (!!(???)!!)
         it { expect { post_create }.not_to change { Tournament.count } }
         it "renders new template" do
           post_create

@@ -1,5 +1,5 @@
 class TournamentsController < ApplicationController
-  before_action :check_if_logged_in_user, only: [:new, :create,
+  before_action :check_if_logged_in_user, only: [:new, :create, :edit, :update,
                                                  :check_if_user_is_creator]
   before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
 
@@ -8,7 +8,11 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    render json: TournamentRepresenter.new(tournament)
+    tournament
+    respond_to do |format|
+      format.html
+      format.json { render json: TournamentRepresenter.new(tournament) }
+    end
   end
 
   def edit
@@ -27,6 +31,11 @@ class TournamentsController < ApplicationController
           redirect_to @tournament,
                       notice: "Tournament was successfully created."
         end
+        # deleting this will probably fix <200:OK> problem
+        format.json do
+          flash[:error] = "Tournament updated."
+          render json: TournamentRepresenter.new(tournament)
+        end
       end
     else
       flash[:error] = @tournament.message
@@ -36,11 +45,14 @@ class TournamentsController < ApplicationController
 
   def update
     unless tournament.ended?
-      if tournament.update_attributes(edit_params(tournament))
+      if tournament.update(edit_params(tournament))
         respond_to do |format|
           format.html do
             redirect_to tournament,
                         notice: "Tournament was successfully updated."
+          end
+          format.json do
+            render json: TournamentRepresenter.new(tournament)
           end
         end
       else
@@ -71,11 +83,6 @@ class TournamentsController < ApplicationController
     respond_to do |format|
       format.json { render json: @types }
     end
-  end
-
-  def add_team
-    # create action for team
-    # return created team with id
   end
 
   private

@@ -11,8 +11,9 @@ RSpec.describe TeamsController do
   # create and edit needs users in params
   # ------------------------------------------------------------------
   describe "POST #create" do
-    subject(:post_create) { post :create, params: { team: team.attributes } }
+    subject(:post_create) { post :create, params: { team: team.attributes, user: user } }
     let(:team) { create(:team) }
+    let(:user) { create(:user) }
     context "with valid attributes" do
       it { expect { post_create }.to change { Team.count }.by(1) }
       it do

@@ -17,6 +17,7 @@ reload = User.create(username: "reload", email: "re@load.com", firstname: "re", 
 killem_all = User.create(username: "killemall", email: "kill@emall.com", firstname: "kill", lastname: "emall", password: "killem all")
 master_of_puppets = User.create(username: "masterofpuppets", email: "master@master.com", firstname: "master", lastname: "ofpupets", password: "master of puppets")
 ride_the_lightning = User.create(username: "ridethelightning", email: "ride@thelightning.com", firstname: "ride", lastname: "thelightning", password: "ride the lightning")
+st_anger = User.create(username: "St.Anger", email: "anger@st.com", firstname: "St.", lastname: "Anger", password: "anger")
 
 mkx = Game.create(name: "Mortal Kombat X")
 fifa = Game.create(name: "Fifa 2016")
@@ -26,7 +27,7 @@ best_tournament = Tournament.create(game: mkx, creator: reload, title: "BestTour
 no = Team.create(name: "no fans", users: [load], tournament: best_tournament)
 metal = Team.create(name: "metal fans", users: [master_of_puppets], tournament: best_tournament)
 music = Team.create(name: "music fans", users: [ride_the_lightning], tournament: best_tournament)
-metallica = Team.create(name: "metallica fans", users: [killem_all, master_of_puppets], tournament: best_tournament)
+metallica = Team.create(name: "metallica fans", users: [killem_all, reload], tournament: best_tournament)
 
 Match.create(game: mkx, team_1: metal, team_2: music)
 Match.create(game: fifa, team_1: metallica, team_2: music)

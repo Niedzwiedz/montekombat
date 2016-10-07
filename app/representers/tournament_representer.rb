@@ -6,6 +6,7 @@ class TournamentRepresenter
   def as_json(_ = {})
     {
       title: @tournament.title,
+      description: @tournament.description,
       creator: @tournament.creator,
       type: @tournament.tournament_type,
       status: @tournament.status,
