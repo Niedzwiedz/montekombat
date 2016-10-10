@@ -29,5 +29,23 @@ class User < ApplicationRecord
     false
   end
 
+  private
+
+  def players_in_tournament(tournament_id)
+    User.joins(:team).where(teams: { tournament_id: tournament_id })
+  end
+
+  def player_distinction_in_tournament
+    teams.each do |team|
+      players_in_tournament(team.tournament.id)
+    end
+  end
+
+  def unique_players_in_tournament
+    unless players_in_tournament.distinct.length == players_in_tournament.length
+      errors[:tournament] << "Two teams in same tournament can't have same player."
+    end
+  end
+
   has_secure_password
 end

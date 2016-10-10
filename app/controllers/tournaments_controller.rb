@@ -1,7 +1,7 @@
 class TournamentsController < ApplicationController
   before_action :check_if_logged_in_user, only: [:new, :create, :edit, :update,
-                                                 :check_if_user_is_creator]
-  before_action :check_if_user_is_creator, only: [:edit, :update, :destroy]
+                                                 :edit_teams, :check_if_user_is_creator]
+  before_action :check_if_user_is_creator, only: [:update, :destroy]
 
   def index
     @tournaments = Tournament.all
@@ -16,6 +16,10 @@ class TournamentsController < ApplicationController
   end
 
   def edit
+    tournament
+  end
+
+  def edit_teams
   end
 
   def new
@@ -31,9 +35,8 @@ class TournamentsController < ApplicationController
           redirect_to @tournament,
                       notice: "Tournament was successfully created."
         end
-        # deleting this will probably fix <200:OK> problem
         format.json do
-          flash[:error] = "Tournament updated."
+          flash[:error] = "Tournament created."
           render json: TournamentRepresenter.new(tournament)
         end
       end

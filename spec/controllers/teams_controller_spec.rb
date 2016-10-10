@@ -12,7 +12,7 @@ RSpec.describe TeamsController do
   # ------------------------------------------------------------------
   describe "POST #create" do
     subject(:post_create) { post :create, params: { team: team.attributes, user: user } }
-    let(:team) { create(:team) }
+    let(:team) { build(:team) }
     let(:user) { create(:user) }
     context "with valid attributes" do
       it { expect { post_create }.to change { Team.count }.by(1) }

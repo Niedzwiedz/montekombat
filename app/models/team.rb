@@ -17,7 +17,9 @@ class Team < ApplicationRecord
   end
 
   def cannot_be_too_many_players_in_team
-    errors[:player] << "Can't be too many players in team" if tournament.number_of_players_in_team < users.size
+    if tournament.number_of_players_in_team < users.size
+      errors[:player] << "Can't be too many players in team"
+    end
   end
 
   def players_in_tournament

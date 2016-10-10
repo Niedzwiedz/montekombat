@@ -11,7 +11,8 @@ class Tournament < ApplicationRecord
   validates :number_of_players_in_team, presence: true
   validate :check_team_number
   validate :check_player_number
-  validate :each_team_players_size
+  validate :each_team_players_count
+  validate :cannot_be_too_many_teams
   validate :unique_players_in_tournament
 
   enum status: {
@@ -39,7 +40,7 @@ class Tournament < ApplicationRecord
 
   private
 
-  def each_team_players_size
+  def each_team_players_count
     teams.each { |team| players_count_in_team(team) }
   end
 
