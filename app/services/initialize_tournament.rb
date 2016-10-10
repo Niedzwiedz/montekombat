@@ -1,8 +1,9 @@
 class InitializeTournament
   class << self
-    def call(tournament_params, teams_params)
-      tournament = Tournament.new(**tournament_params)
-      teams = initialize_teams(teams_params["teams"], tournament)
+    def call(tournament_params, teams_params, owner)
+      tournament_params[:creator] = owner
+      tournament = Tournament.new(tournament_params)
+      teams = initialize_teams(teams_params, tournament)
 
       ActiveRecord::Base.transaction do
         tournament.save!

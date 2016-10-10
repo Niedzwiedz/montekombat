@@ -28,7 +28,7 @@ class TournamentsController < ApplicationController
   end
 
   def create
-    @tournament = InitializeTournament.call(tournament_params, teams_params)
+    @tournament = InitializeTournament.call(tournament_params, teams_params, current_user)
     if @tournament.instance_of? Tournament
       respond_to do |format|
         format.html do
@@ -42,7 +42,6 @@ class TournamentsController < ApplicationController
       end
     else
       flash[:error] = @tournament.message
-      render :new
     end
   end
 

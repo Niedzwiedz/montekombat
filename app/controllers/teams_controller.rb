@@ -1,4 +1,8 @@
 class TeamsController < ApplicationController
+  before_action :check_if_logged_in_user, only: [:new, :create, :edit, :update,
+                                                 :edit_teams, :check_if_user_is_creator,
+                                                 :add_user, :remove_user]
+  before_action :check_if_user_is_creator, only: [:destroy]
 
   def edit
     team
@@ -10,8 +14,12 @@ class TeamsController < ApplicationController
 
   def create
     @team = Team.new(team_params)
-    @user = User.find(user_params)
-    @team.users << @user
+    if @team.tournament.creator == current_user
+      @user = User.find(user_params)
+      @team.users << @user
+    else
+      @team.users << current_user
+    end
     if @team.save
       respond_to do |format|
         format.html { redirect_to root_path, notice: "Team was successfully created." }
@@ -43,15 +51,23 @@ class TeamsController < ApplicationController
 
   def add_user
     team = Team.find(params[:team_id])
-    user = User.find(params[:user_id])
-    team.users << user
+    if team.tournament.creator == current_user
+      user = User.find(params[:user_id])
+      team.users << user
+    else
+      team.users << current_user
+    end
     render json: {}
   end
 
   def remove_user
     team = Team.find(params[:team_id])
-    user = User.find(params[:user_id])
-    team.users.delete(user)
+    if team.tournament.creator == current_user
+      user = User.find(params[:user_id])
+      team.users.delete(user)
+    else
+      team.users.delete(current_user)
+    end
     unless team.users.any?
       team.destroy!
     end
@@ -59,6 +75,18 @@ class TeamsController < ApplicationController
   end
 
   private
+
+  def check_if_logged_in_user
+    unless logged_in?
+      flash[:danger] = "Please log in."
+      redirect_to login_path
+    end
+  end
+
+  def check_if_user_is_creator
+    creator_id = team.tournament.creator.id
+    redirect_to root_path if current_user.id != creator_id && !current_user.admin?
+  end
 
   def team
     @team ||= Team.find(params[:id])

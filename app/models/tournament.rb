@@ -7,7 +7,7 @@ class Tournament < ApplicationRecord
 
   accepts_nested_attributes_for :teams
 
-  validates :title, :game, :creator, :number_of_teams, presence: true
+  validates :title, :start_date, :game, :creator, :number_of_teams, presence: true
   validates :number_of_players_in_team, presence: true
   validate :check_team_number
   validate :check_player_number
