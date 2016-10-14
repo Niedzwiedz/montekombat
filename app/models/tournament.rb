@@ -4,6 +4,7 @@ class Tournament < ApplicationRecord
   belongs_to :game
   belongs_to :creator, class_name: "User"
   has_many :teams
+  has_many :rounds
 
   accepts_nested_attributes_for :teams
 
@@ -25,6 +26,10 @@ class Tournament < ApplicationRecord
     deathmatch: 0,
     league: 1,
   }
+
+  def winner
+    teams.first if teams.count == 1
+  end
 
   def empty_slots
     number_of_slots - player_count

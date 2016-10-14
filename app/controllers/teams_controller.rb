@@ -4,6 +4,11 @@ class TeamsController < ApplicationController
                                                  :add_user, :remove_user]
   before_action :check_if_user_is_creator, only: [:destroy]
 
+  def index
+    teams = Team.all
+    render json: TeamsRepresenter.new(teams)
+  end
+
   def edit
     team
   end

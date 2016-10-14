@@ -17,6 +17,10 @@ class TournamentsController < ApplicationController
 
   def edit
     tournament
+    respond_to do |format|
+      format.html
+      format.json { render json: TournamentRepresenter.new(tournament) }
+    end
   end
 
   def edit_teams
@@ -29,6 +33,12 @@ class TournamentsController < ApplicationController
 
   def create
     @tournament = InitializeTournament.call(tournament_params, teams_params, current_user)
+    if @tournament.deathmatch?
+      time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/60
+      DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
+    elsif @tournament.league?
+
+    end
     if @tournament.instance_of? Tournament
       respond_to do |format|
         format.html do
@@ -78,7 +88,7 @@ class TournamentsController < ApplicationController
   end
 
   # ------------------------------------------------------------------
-  # Additional actions (types, add_team)
+  # Additional actions (types)
 
   def types
     @types = Tournament.tournament_types.keys.to_a
