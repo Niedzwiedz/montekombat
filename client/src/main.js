@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import App from './App.vue'
 import Hello from './components/Hello.vue'
 import Matches from './components/Matches.vue'
+import Login from './components/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/matches',
     name: 'matches',
     component: Matches
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
   }
 ]
 

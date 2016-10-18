@@ -1,6 +1,8 @@
 module Api
   module V1
     class MatchesController < ApplicationController
+      before_action :authenticate_user
+
       def index
         render json: MatchesRepresenter.new(Match.all)
       end

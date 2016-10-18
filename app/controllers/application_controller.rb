@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
+  include Knock::Authenticable
   helper_method :users, :games, :teams, :current_user, :logged_in?
-
   # rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
 
   def render_not_found
@@ -20,9 +20,9 @@ class ApplicationController < ActionController::Base
     @users ||= User.all
   end
 
-  def current_user
-    @current_user ||= User.find_by(id: session[:user_id])
-  end
+  # def current_user
+  #   @current_user ||= User.find_by(id: session[:user_id])
+  # end
 
   def logged_in?
     current_user.present?
