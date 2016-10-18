@@ -12,16 +12,14 @@ export default {
 
   login (email, password) {
     axios.post(LOGIN_PATH, {auth: {email: email, password: password}}).then(response => {
-      localStorage.setItem('id_token', response.data)
+      localStorage.setItem('id_token', response.data.jwt)
       this.user.authenticated = true
-      console.log(this.user.authenticated)
     })
   },
 
   logout () {
     localStorage.removeItem('id_token')
     this.user.authenticated = false
-    console.log(this.user.authenticated)
   },
   checkAuth () {
     var jwt = localStorage.getItem('id_token')
