@@ -29,8 +29,6 @@ class Match < ApplicationRecord
 
   def remove_loser
     if points_for_team1 != points_for_team2
-      loser = points_for_team1 > points_for_team2 ? team_2 : team_1
-      round.tournament.decrement!(:number_of_teams)
       if last_match_in_round?
         end_tournament
       end

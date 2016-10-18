@@ -1,5 +1,27 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace :api do
+    namespace :v1 do
+      resources :tournaments do
+        collection do
+          get "types"
+        end
+        get "edit_teams", to: "tournaments#edit_teams"
+      end
+
+      resources :matches do
+        collection do
+          get "options"
+        end
+      end
+
+      resources :teams, only: [:index, :edit, :update, :new, :create, :destroy] do
+        delete "/remove_user/:user_id", to: "teams#remove_user"
+        post "/add_user/:user_id", to: "teams#add_user"
+      end
+    end
+  end
+
   require "sidekiq/web"
   mount Sidekiq::Web => "/sidekiq"
 

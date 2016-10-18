@@ -27,6 +27,22 @@ class Tournament < ApplicationRecord
     league: 1,
   }
 
+  def playing_teams
+    current_teams = teams.ids
+    rounds.each do |round|
+      round.matches.each do |match|
+        if match.finished?
+          if match.points_for_team1 > match.points_for_team2
+            current_teams.delete(match.team_2.id)
+          else
+            current_teams.delete(match.team_1.id)
+          end
+        end
+      end
+    end
+    current_teams
+  end
+
   def winner
     teams.first if teams.count == 1
   end

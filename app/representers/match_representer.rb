@@ -8,7 +8,7 @@ class MatchRepresenter
       date: @match.date,
       status: @match.status,
       match_type: @match.match_type,
-      round: @match.round,
+      round: RoundRepresenter.new(@match.round),
       points_for_team1: @match.points_for_team1,
       points_for_team2: @match.points_for_team2,
       game: GameRepresenter.new(@match.game),

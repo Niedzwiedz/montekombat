@@ -38,11 +38,10 @@ class MatchesController < ApplicationController
   def update
     if match.update_attributes(match_params)
       respond_to do |format|
-        format.html { redirect_to match, notice: "Match was successfully updated." }
+        format.html { redirect_to edit_match_path(match), notice: "Match was successfully updated." }
       end
       if match.finished?
-        match.remove_loser
-        deathmatch_round_generator if match.last_match_in_round?
+        match.deathmatch_round_generator if match.last_match_in_round?
       end
     else
       flash[:error] = match.errors.full_messages
@@ -57,11 +56,6 @@ class MatchesController < ApplicationController
   end
 
   # Additional actions
-  def options
-    statuses = Match.statuses.keys.to_a
-    match_types = Match.match_types.keys.to_a
-    render json: MatchesOptionsRepresenter.new(statuses, match_types)
-  end
 
   private
 
