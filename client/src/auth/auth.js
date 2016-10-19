@@ -1,7 +1,6 @@
 // import {router} from './../main.js'
 import api, { postLogin } from '../api'
 
-// const SIGNUP_PATH = 'http://localhost:3000/users'
 export default {
   user: {
     username: '',

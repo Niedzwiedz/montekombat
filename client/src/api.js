@@ -3,6 +3,7 @@ import Auth from './auth/auth'
 import { router } from './main.js'
 const API_PATH = 'http://localhost:3000/api/v1'
 const LOGIN_PATH = 'http://localhost:3000/user_token'
+// const SIGNUP_PATH = 'http://localhost:3000/users'
 export const getMatches = () => axios.get(API_PATH + '/matches.json')
 export const postLogin = (email, password) => axios.post(LOGIN_PATH, {auth: {email: email, password: password}})
 
