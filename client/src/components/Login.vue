@@ -7,7 +7,7 @@
     <div class="form-group">
       <input type="password" class="form-control" placeholder="Enter your password" v-model="password">
     </div>
-    <button @click="submit()"> Login </button>
+    <button type="button" @click="submit()"> Login </button>
   </div>
 </template>
 

@@ -5,13 +5,7 @@ class UsersRepresenter
 
   def as_json(_ = {})
     @users.map do |user|
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname,
-      }
+      UserRepresenter.new(user)
     end
   end
 end

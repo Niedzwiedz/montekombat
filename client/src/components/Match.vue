@@ -10,7 +10,6 @@
       match: {
         type: Object
       }
-    },
-    methods: {}
+    }
   }
 </script>
