@@ -6,6 +6,8 @@ import VueRouter from 'vue-router'
 import App from './App.vue'
 import Matches from './components/Matches.vue'
 import Login from './components/Login.vue'
+import Error from './components/Error.vue'
+import Auth from './auth/auth'
 
 Vue.use(VueRouter)
 
@@ -19,6 +21,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: Error
   }
 ]
 
@@ -31,3 +38,16 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
+router.beforeEach((to, from, next) => {
+  if (!(to.path === '/login')) {
+    Auth.checkAuth()
+    if (Auth.user.authenticated === false) {
+      router.push({name: 'login'})
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
