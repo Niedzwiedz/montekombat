@@ -1,7 +1,7 @@
 <template>
 <div>
-  <router-link to="/home">Go to Home</router-link>
-  <router-link to="/matches">View Matches</router-link>
+  <router-link v-if="user.authenticated" to="/tournaments">Tournaments</router-link>
+  <router-link v-if="user.authenticated" to="/matches">Matches</router-link>
   <router-link v-if="!user.authenticated" to="/login">Login</router-link>
   <a v-if="user.authenticated" @click="logout()"> Logout </a>
 </div>

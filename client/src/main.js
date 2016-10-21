@@ -5,6 +5,10 @@ import VueRouter from 'vue-router'
 
 import App from './App.vue'
 import Matches from './components/Matches.vue'
+import Tournaments from './components/Tournaments.vue'
+import ShowTournament from './components/ShowTournament.vue'
+import TournamentTeams from './components/TournamentTeams.vue'
+import TournamentRounds from './components/TournamentRounds.vue'
 import Login from './components/Login.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
@@ -16,6 +20,28 @@ const routes = [
     path: '/matches',
     name: 'matches',
     component: Matches
+  },
+  {
+    path: '/tournaments',
+    name: 'tournaments',
+    component: Tournaments
+  },
+  {
+    path: '/tournament/:id',
+    name: 'showTournament',
+    component: ShowTournament,
+    children: [
+      {
+        path: 'teams',
+        name: 'tournamentTeams',
+        component: TournamentTeams
+      },
+      {
+        path: 'rounds',
+        name: 'tournamentRounds',
+        component: TournamentRounds
+      }
+    ]
   },
   {
     path: '/login',
