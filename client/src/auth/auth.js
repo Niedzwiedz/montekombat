@@ -1,8 +1,10 @@
 // import {router} from './../main.js'
 import api, { postLogin } from '../api'
+import { router } from '../main'
 
 export default {
   user: {
+    id: '',
     username: '',
     authenticated: false
   },
@@ -12,6 +14,8 @@ export default {
       api.createHeader()
       this.user.authenticated = true
       this.user.username = response.data.user.username
+      this.user.id = response.data.user.id
+      router.push({name: 'tournaments'})
     })
   },
   logout () {
@@ -19,6 +23,8 @@ export default {
     api.deleteHeader()
     this.user.authenticated = false
     this.user.username = ''
+    this.user.id = ''
+    router.push({name: 'login'})
   },
   checkAuth () {
     var jwt = localStorage.getItem('id_token')

@@ -9,6 +9,7 @@ import Tournaments from './components/Tournaments.vue'
 import ShowTournament from './components/ShowTournament.vue'
 import TournamentTeams from './components/TournamentTeams.vue'
 import TournamentRounds from './components/TournamentRounds.vue'
+import NewTournament from './components/NewTournament.vue'
 import Login from './components/Login.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
@@ -24,7 +25,14 @@ const routes = [
   {
     path: '/tournaments',
     name: 'tournaments',
-    component: Tournaments
+    component: Tournaments,
+    children: [
+      {
+        path: 'new',
+        name: 'newTournament',
+        component: NewTournament
+      }
+    ]
   },
   {
     path: '/tournament/:id',

@@ -16,6 +16,9 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :games, only: [:index]
+      resources :users, only: [:index]
+
       resources :teams, only: [:index, :edit, :update, :new, :create, :destroy] do
         delete "/remove_user/:user_id", to: "teams#remove_user"
         post "/add_user/:user_id", to: "teams#add_user"

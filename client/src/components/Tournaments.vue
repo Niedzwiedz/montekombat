@@ -10,6 +10,8 @@
         <th class="table-header not-important"> status </th>
       </tr>
       <tournament v-for="tournament in tournaments" :tournament="tournament"></tournament>
+      <router-link :to="{ name: 'newTournament' }"> Create Tournament </router-link>
+      <router-view></router-view>
     </table>
   </div>
 </template>

@@ -1,10 +1,10 @@
 class InitializeTournament
   class << self
-    def call(tournament_params, teams_params, owner)
-      tournament_params[:creator] = owner
+    def call(tournament_params, teams_params)
+      creator = User.find(tournament_params["creator"])
+      tournament_params["creator"] = creator
       tournament = Tournament.new(tournament_params)
       teams = initialize_teams(teams_params, tournament)
-
       ActiveRecord::Base.transaction do
         tournament.save!
         teams.each do |team|
@@ -34,8 +34,8 @@ class InitializeTournament
 
     def initialize_users(team_users_params)
       users = []
-      team_users_params.map do |team_user_params|
-        users << User.find(team_user_params[1]["id"])
+      team_users_params.each do |team_user_params|
+        users << User.find(team_user_params["id"])
       end
       users
     end

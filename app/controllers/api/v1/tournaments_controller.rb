@@ -5,6 +5,11 @@ module Api
         render json: TournamentsRepresenter.new(Tournament.all)
       end
 
+      def new
+        @tournament = Tournament.new
+        @tournament.teams.build
+      end
+
       def show
         render json: TournamentRepresenter.new(tournament)
       end
@@ -14,13 +19,15 @@ module Api
       end
 
       def create
-        @tournament = InitializeTournament.call(tournament_params, teams_params, current_user)
-        if @tournament.deathmatch?
-          time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/60
-          DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
-        end
+        @tournament = InitializeTournament.call(tournament_params, teams_params)
         if @tournament.instance_of? Tournament
+          if @tournament.deathmatch?
+            time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/60
+            # DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
+          end
           render json: TournamentRepresenter.new(tournament)
+        else
+          render json: {error: @tournament}
         end
       end
 
@@ -55,7 +62,7 @@ module Api
 
       def tournament_params
         params.require(:tournament).permit(:game_id, :creator_id, :title, :description,
-                                           :tournament_type, :number_of_teams,
+                                           :tournament_type, :number_of_teams, :creator,
                                            :number_of_players_in_team, :start_date)
       end
 

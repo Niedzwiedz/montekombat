@@ -6,7 +6,13 @@ const API_PATH = 'http://localhost:3000/api/v1'
 const LOGIN_PATH = 'http://localhost:3000/user_token'
 // const SIGNUP_PATH = 'http://localhost:3000/users'
 export const getMatches = () => axios.get(API_PATH + '/matches.json')
+export const getGames = () => axios.get(API_PATH + '/games.json')
+export const getTournaments = () => axios.get(API_PATH + '/tournaments.json')
+export const getTournament = id => axios.get(API_PATH + '/tournaments/' + id + '.json')
+export const getUsers = () => axios.get(API_PATH + '/users.json')
+export const getTournamentTypes = () => axios.get(API_PATH + '/tournaments/types.json')
 export const postLogin = (email, password) => axios.post(LOGIN_PATH, {auth: {email: email, password: password}})
+export const postNewTournament = (tournament, teams) => axios.post(API_PATH + '/tournaments.json', { tournament: tournament, teams: teams })
 
 axios.interceptors.response.use(function (response) {
   return response

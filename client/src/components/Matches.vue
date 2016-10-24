@@ -1,12 +1,14 @@
 <template>
   <div class="matches">
     <h1> Matches </h1>
-    <ul v-if="matches">
-      <match v-for="match in matches" :match="match"></match>
-    </ul>
-    <p v-else>
+    <div v-if="matches">
+      <ul>
+        <match v-for="match in matches" :match="match"></match>
+      </ul>
+    </div>
+    <div v-else>
       No matches found.
-    </p>
+    </div>
   </div>
 </template>
 
