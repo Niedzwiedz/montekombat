@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 
 import App from './App.vue'
 import Matches from './components/Matches.vue'
@@ -13,8 +14,10 @@ import NewTournament from './components/NewTournament.vue'
 import Login from './components/Login.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
+import { getTournaments, postNewTournament } from './api'
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
 
 const routes = [
   {
@@ -67,10 +70,38 @@ export const router = new VueRouter({
   routes
 })
 
+const store = new Vuex.Store({
+  state: {
+    tournaments: []
+  },
+  mutations: {
+    addTournament (state, tournament) {
+      state.tournaments.push(tournament)
+    },
+    setTournaments (state, tournaments) {
+      state.tournaments = tournaments
+    }
+  },
+  actions: {
+    async addNewTournament ({commit}, tournamentParams) {
+      var tournament = await postNewTournament(tournamentParams.tournament, tournamentParams.teams)
+      commit('addTournament', tournament.data)
+    },
+    async getAllTournaments ({commit}) {
+      var tournaments = await getTournaments()
+      commit('setTournaments', tournaments.data)
+    }
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   router,
-  render: h => h(App)
+  store,
+  render: h => h(App),
+  async beforeMount () {
+    this.$store.dispatch('getAllTournaments')
+  }
 }).$mount('#app')
 
 router.beforeEach((to, from, next) => {

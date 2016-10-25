@@ -24,7 +24,7 @@
       <input type="number" v-model="number_of_players_in_team" min="1">
     </div>
     <div class="form-group">
-      <input placeholder="Add proper datepicker!" type="datetime" v-model="start_date">
+      <input placeholder="Add proper datepicker!" type="datetime-local" v-model="start_date">
     </div>
     <h2> Teams: </h2>
     <input placeholder="Add team name" v-model="newTeam" v-on:keyup.enter="addTeam">
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-  import { getGames, getTournamentTypes, getUsers, postNewTournament } from '../api'
+  import { getGames, getTournamentTypes, getUsers } from '../api'
   import Auth from '../auth/auth'
 
   export default {
@@ -107,7 +107,7 @@
         this.teams.splice(index, 1)
         this.teams_display.splice(index, 1)
       },
-      removeUser: function (parentIndex, index) {
+      removeUser (parentIndex, index) {
         this.teams[parentIndex].users.splice(index, 1)
         this.teams_display[parentIndex].users.splice(index, 1)
       },
@@ -122,11 +122,9 @@
           start_date: this.start_date,
           creator: this.user.id
         }
-        var teams = this.teams
-        var teamsObject = Object.assign({}, teams)
-        postNewTournament(tournament, teamsObject).then(response => {
-          console.log(JSON.stringify(response))
-        })
+        var teamsArray = this.teams
+        var teams = Object.assign({}, teamsArray)
+        this.$store.dispatch('addNewTournament', { tournament: tournament, teams: teams })
       }
     }
   }

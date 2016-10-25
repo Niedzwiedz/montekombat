@@ -8,7 +8,7 @@ class TournamentRepresenter
       id: @tournament.id,
       title: @tournament.title,
       description: @tournament.description,
-      creator: @tournament.creator,
+      creator: UserRepresenter.new(@tournament.creator),
       type: @tournament.tournament_type,
       status: @tournament.status,
       number_of_teams: @tournament.number_of_teams,

@@ -9,7 +9,7 @@
         <th class="table-header not-important"> teams </th>
         <th class="table-header not-important"> status </th>
       </tr>
-      <tournament v-for="tournament in tournaments" :tournament="tournament"></tournament>
+      <tournament v-for="tournament in this.$store.state.tournaments" :tournament="tournament"></tournament>
       <router-link :to="{ name: 'newTournament' }"> Create Tournament </router-link>
       <router-view></router-view>
     </table>
@@ -18,21 +18,10 @@
 
 <script>
   import Tournament from './Tournament.vue'
-  import { getTournaments } from '../../src/api'
 
   export default {
     components: {
       Tournament
-    },
-    data () {
-      return {
-        tournaments: []
-      }
-    },
-    created () {
-      getTournaments().then(response => {
-        this.tournaments = response.data
-      })
     }
   }
 </script>
@@ -44,9 +33,9 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
-  width:60%;
-  margin-left:20%;
-  margin-right:20%;
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 .table-header {
   font-wight: lighter;
