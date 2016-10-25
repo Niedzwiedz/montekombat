@@ -49,7 +49,7 @@
 </template>
 
 <script>
-  import { getGames, getTournamentTypes, getUsers } from '../api'
+  import { getTournamentTypes } from '../api'
   import Auth from '../auth/auth'
 
   export default {
@@ -57,15 +57,15 @@
       return {
         newTeam: '',
         newUser: '',
-        selected_user: '',
-        users: [],
+        selected_user: 1,
+        users: this.$store.state.users,
         teams_display: [],
         teams: [],
         tournament_title: '',
         tournament_description: '',
-        selected_game: '',
-        games: [],
-        selected_type: '',
+        selected_game: 1,
+        games: this.$store.state.games,
+        selected_type: 'deathmatch',
         types: [],
         number_of_teams: 1,
         number_of_players_in_team: 1,
@@ -74,14 +74,8 @@
       }
     },
     created () {
-      getGames().then(response => {
-        this.games = response.data
-      })
       getTournamentTypes().then(response => {
         this.types = response.data
-      })
-      getUsers().then(response => {
-        this.users = response.data
       })
     },
     methods: {

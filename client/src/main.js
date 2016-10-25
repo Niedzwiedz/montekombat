@@ -14,7 +14,7 @@ import NewTournament from './components/NewTournament.vue'
 import Login from './components/Login.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
-import { getTournaments, postNewTournament } from './api'
+import { getTournaments, getUsers, postNewTournament, getGames } from './api'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -72,7 +72,9 @@ export const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {
-    tournaments: []
+    tournaments: [],
+    users: [],
+    games: []
   },
   mutations: {
     addTournament (state, tournament) {
@@ -80,6 +82,12 @@ const store = new Vuex.Store({
     },
     setTournaments (state, tournaments) {
       state.tournaments = tournaments
+    },
+    setUsers (state, users) {
+      state.users = users
+    },
+    setGames (state, games) {
+      state.games = games
     }
   },
   actions: {
@@ -90,6 +98,14 @@ const store = new Vuex.Store({
     async getAllTournaments ({commit}) {
       var tournaments = await getTournaments()
       commit('setTournaments', tournaments.data)
+    },
+    async getAllUsers ({commit}) {
+      var users = await getUsers()
+      commit('setUsers', users.data)
+    },
+    async getAllGames ({commit}) {
+      var games = await getGames()
+      commit('setGames', games.data)
     }
   }
 })
@@ -101,6 +117,8 @@ new Vue({
   render: h => h(App),
   async beforeMount () {
     this.$store.dispatch('getAllTournaments')
+    this.$store.dispatch('getAllUsers')
+    this.$store.dispatch('getAllGames')
   }
 }).$mount('#app')
 
