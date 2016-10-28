@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20161011091006) do
     t.integer  "game_id",                      null: false
     t.integer  "team_1_id",                    null: false
     t.integer  "team_2_id",                    null: false
+    t.integer  "winner_id"
     t.integer  "round_id"
     t.integer  "creator_id",                   null: false
     t.integer  "points_for_team1", default: 0
@@ -36,6 +37,7 @@ ActiveRecord::Schema.define(version: 20161011091006) do
     t.index ["round_id"], name: "index_matches_on_round_id", using: :btree
     t.index ["team_1_id"], name: "index_matches_on_team_1_id", using: :btree
     t.index ["team_2_id"], name: "index_matches_on_team_2_id", using: :btree
+    t.index ["winner_id"], name: "index_matches_on_winner_id", using: :btree
   end
 
   create_table "rounds", force: :cascade do |t|

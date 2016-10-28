@@ -10,6 +10,15 @@ class Team < ApplicationRecord
   validate :unique_players_in_tournament
   validates :users, presence: true
 
+  def delete_team_from_matches
+    matches_team_1.update_all(team_1_id: 0)
+    matches_team_2.update_all(team_2_id: 0)
+  end
+
+  def delete_empty_matches
+    empty_matches.delete_all
+  end
+
   private
 
   def player_cant_be_duplicated_in_team
@@ -30,5 +39,17 @@ class Team < ApplicationRecord
     unless players_in_tournament.distinct.length == players_in_tournament.length
       errors[:tournament] << "Two teams in same tournament can't have same player."
     end
+  end
+
+  def matches_team_1
+    Match.where('team_1_id = ?', id)
+  end
+
+  def matches_team_2
+    Match.where('team_2_id = ?', id)
+  end
+
+  def empty_matches
+    Match.where('team_1_id = ? AND team_2_id = ?', 0, 0)
   end
 end

@@ -28,9 +28,9 @@
     </div>
     <h2> Teams: </h2>
     <input placeholder="Add team name" v-model="newTeam" v-on:keyup.enter="addTeam">
-      <select v-model="selected_user">
-        <option v-for="user in users" v-bind:value="user.id"> {{ user.username }} </option>
-      </select>
+    <select v-model="selected_user">
+      <option v-for="user in users" v-bind:value="user.id"> {{ user.username }} </option>
+    </select>
     <ul>
       <li v-for="(team, team_index) in teams_display">
         <span> {{ team.name }} </span>
@@ -49,7 +49,6 @@
 </template>
 
 <script>
-  import { getTournamentTypes } from '../api'
   import Auth from '../auth/auth'
 
   export default {
@@ -57,26 +56,21 @@
       return {
         newTeam: '',
         newUser: '',
-        selected_user: 1,
-        users: this.$store.state.users,
         teams_display: [],
         teams: [],
         tournament_title: '',
         tournament_description: '',
-        selected_game: 1,
-        games: this.$store.state.games,
-        selected_type: 'deathmatch',
-        types: [],
         number_of_teams: 1,
         number_of_players_in_team: 1,
         start_date: '',
-        user: Auth.user
+        user: Auth.user,
+        selected_user: 1,
+        users: this.$store.state.users,
+        selected_game: 1,
+        games: this.$store.state.games,
+        selected_type: 'deathmatch',
+        types: this.$store.state.tournament_types
       }
-    },
-    created () {
-      getTournamentTypes().then(response => {
-        this.types = response.data
-      })
     },
     methods: {
       addTeam () {

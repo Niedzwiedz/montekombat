@@ -11,10 +11,11 @@ import ShowTournament from './components/ShowTournament.vue'
 import TournamentTeams from './components/TournamentTeams.vue'
 import TournamentRounds from './components/TournamentRounds.vue'
 import NewTournament from './components/NewTournament.vue'
+import EditTournament from './components/EditTournament.vue'
 import Login from './components/Login.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
-import { getTournaments, getUsers, postNewTournament, getGames } from './api'
+import { getTournaments, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament } from './api'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -51,6 +52,11 @@ const routes = [
         path: 'rounds',
         name: 'tournamentRounds',
         component: TournamentRounds
+      },
+      {
+        path: 'edit',
+        name: 'tournamentEdit',
+        component: EditTournament
       }
     ]
   },
@@ -74,7 +80,8 @@ const store = new Vuex.Store({
   state: {
     tournaments: [],
     users: [],
-    games: []
+    games: [],
+    tournament_types: []
   },
   mutations: {
     addTournament (state, tournament) {
@@ -88,6 +95,12 @@ const store = new Vuex.Store({
     },
     setGames (state, games) {
       state.games = games
+    },
+    setTournamentTypes (state, types) {
+      state.tournament_types = types
+    },
+    editTournament (state, tournament) {
+      state.tournaments[state.tournaments.findIndex(({ id }) => id === tournament['id'])] = tournament
     }
   },
   actions: {
@@ -106,6 +119,15 @@ const store = new Vuex.Store({
     async getAllGames ({commit}) {
       var games = await getGames()
       commit('setGames', games.data)
+    },
+    async getAllTournamentTypes ({commit}) {
+      var types = await getTournamentTypes()
+      commit('setTournamentTypes', types.data)
+    },
+    async editOneTournament ({commit}, tournamentParams) {
+      console.log(tournamentParams)
+      var tournament = await updateTournament(tournamentParams['id'], tournamentParams['tournament'])
+      commit('editTournament', tournament.data)
     }
   }
 })
@@ -119,6 +141,7 @@ new Vue({
     this.$store.dispatch('getAllTournaments')
     this.$store.dispatch('getAllUsers')
     this.$store.dispatch('getAllGames')
+    this.$store.dispatch('getAllTournamentTypes')
   }
 }).$mount('#app')
 

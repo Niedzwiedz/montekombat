@@ -25,27 +25,18 @@
     <div>
       <router-link :to="{ name: 'tournamentTeams', params: { id: $route.params.id } }"> Teams </router-link>
       <router-link :to="{ name: 'tournamentRounds', params: { id: $route.params.id } }"> Rounds </router-link>
-      <router-view :rounds='tournament.rounds' :teams='tournament.teams'></router-view>
+      <router-link :to="{ name: 'tournamentEdit', params: { id: $route.params.id } }"> Edit </router-link>
+      <router-view :rounds='tournament.rounds' :teams='tournament.teams' :tournament='tournament'></router-view>
     <div>
   </div>
 </template>
 
 <script>
-  import { getTournament } from '../api'
-
   export default {
     data () {
       return {
-        tournament: {
-          game: Object,
-          creator: Object
-        }
+        tournament: this.$store.state.tournaments[this.$store.state.tournaments.findIndex(({ id }) => id === this.$route.params.id)]
       }
-    },
-    created () {
-      getTournament(this.$route.params.id).then(response => {
-        this.tournament = response.data
-      })
     }
   }
 </script>

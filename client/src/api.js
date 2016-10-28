@@ -13,6 +13,11 @@ export const getUsers = () => axios.get(API_PATH + '/users.json')
 export const getTournamentTypes = () => axios.get(API_PATH + '/tournaments/types.json')
 export const postLogin = (email, password) => axios.post(LOGIN_PATH, {auth: {email: email, password: password}})
 export const postNewTournament = (tournament, teams) => axios.post(API_PATH + '/tournaments.json', { tournament: tournament, teams: teams })
+export const postNewTeam = (team, user) => axios.post(API_PATH + '/teams.json', { team: team, user: user })
+export const deleteTeam = (teamId) => axios.delete(API_PATH + '/teams/' + teamId + '.json')
+export const deleteUserFromTeam = (teamId, userId) => axios.delete(API_PATH + /teams/ + teamId + '/remove_user/' + userId + '.json')
+export const updateTournament = (tournamentId, tournament) => axios.patch(API_PATH + '/tournaments/' + tournamentId + '.json', { tournament: tournament })
+export const addUser = (teamId, userId) => axios.post(API_PATH + '/teams/' + teamId + '/add_user/' + userId + '.json')
 
 axios.interceptors.response.use(function (response) {
   return response

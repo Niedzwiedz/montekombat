@@ -11,9 +11,7 @@
 <script>
   export default {
     props: {
-      tournament: {
-        type: Object
-      }
+      tournament: {}
     }
   }
 </script>
