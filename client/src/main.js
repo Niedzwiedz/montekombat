@@ -12,10 +12,11 @@ import TournamentTeams from './components/TournamentTeams.vue'
 import TournamentRounds from './components/TournamentRounds.vue'
 import NewTournament from './components/NewTournament.vue'
 import EditTournament from './components/EditTournament.vue'
+import MatchInProgress from './components/MatchInProgress.vue'
 import Login from './components/Login.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
-import { getTournaments, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament } from './api'
+import { getMatches, getTournaments, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament, updateMatchFinished, updateMatchStarted } from './api'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -51,7 +52,14 @@ const routes = [
       {
         path: 'rounds',
         name: 'tournamentRounds',
-        component: TournamentRounds
+        component: TournamentRounds,
+        children: [
+          {
+            path: 'points/:match_id',
+            name: 'matchPoints',
+            component: MatchInProgress
+          }
+        ]
       },
       {
         path: 'edit',
@@ -79,6 +87,7 @@ export const router = new VueRouter({
 const store = new Vuex.Store({
   state: {
     tournaments: [],
+    matches: [],
     users: [],
     games: [],
     tournament_types: []
@@ -96,14 +105,28 @@ const store = new Vuex.Store({
     setGames (state, games) {
       state.games = games
     },
+    setMatches (state, matches) {
+      state.matches = matches
+    },
     setTournamentTypes (state, types) {
       state.tournament_types = types
     },
     editTournament (state, tournament) {
       state.tournaments[state.tournaments.findIndex(({ id }) => id === tournament['id'])] = tournament
+    },
+    editMatch (state, match) {
+      state.matches[state.matches.findIndex(({ id }) => id === match['id'])] = match
     }
   },
   actions: {
+    async finishThisMatch ({commit}, matchObject) {
+      var match = await updateMatchFinished(matchObject.points1, matchObject.points2, matchObject.matchId)
+      commit('editMatch', match.data)
+    },
+    async startThisMatch ({commit}, matchId) {
+      var match = await updateMatchStarted(matchId)
+      commit('editMatch', match.data)
+    },
     async addNewTournament ({commit}, tournamentParams) {
       var tournament = await postNewTournament(tournamentParams.tournament, tournamentParams.teams)
       commit('addTournament', tournament.data)
@@ -125,9 +148,12 @@ const store = new Vuex.Store({
       commit('setTournamentTypes', types.data)
     },
     async editOneTournament ({commit}, tournamentParams) {
-      console.log(tournamentParams)
       var tournament = await updateTournament(tournamentParams['id'], tournamentParams['tournament'])
       commit('editTournament', tournament.data)
+    },
+    async getAllMatches ({commit}) {
+      var matches = await getMatches()
+      commit('setMatches', matches.data)
     }
   }
 })
@@ -142,6 +168,7 @@ new Vue({
     this.$store.dispatch('getAllUsers')
     this.$store.dispatch('getAllGames')
     this.$store.dispatch('getAllTournamentTypes')
+    this.$store.dispatch('getAllMatches')
   }
 }).$mount('#app')
 

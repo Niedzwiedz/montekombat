@@ -31,13 +31,10 @@
       editTournament () {
         // send tournament id and all the params
         var tournament = {
-          game_id: this.tournament.game_id,
           title: this.tournament.title,
           description: this.tournament.description,
           number_of_teams: this.tournament.number_of_teams,
           number_of_players_in_team: this.tournament.number_of_players_in_teams,
-          start_date: this.tournament.start_date,
-          tournament_type: this.tournament.tournament_type,
           creator_id: this.tournament.creator_id
         }
         this.$store.dispatch('editOneTournament', { id: this.$route.params.id, tournament: tournament })

@@ -33,9 +33,9 @@
 
 <script>
   export default {
-    data () {
-      return {
-        tournament: this.$store.state.tournaments[this.$store.state.tournaments.findIndex(({ id }) => id === this.$route.params.id)]
+    computed: {
+      tournament () {
+        return this.$store.state.tournaments[this.$store.state.tournaments.findIndex(({ id }) => id === this.$route.params.id)]
       }
     }
   }

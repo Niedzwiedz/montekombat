@@ -1,7 +1,15 @@
 <template>
   <div>
     <div> Round {{ round.round_number }} : </div>
-    <tournamentMatch v-for="match in round.matches" :match='match'></tournamentMatch>
+    <table>
+      <tr>
+        <th> First Team </th>
+        <th> Second Team </th>
+        <th> Status </th>
+        <th> Actions </th>
+      </tr>
+      <tournamentMatch v-for="match in round.matches" :match_id='match.id'></tournamentMatch>
+    </table>
   </div>
 </template>
 
@@ -16,3 +24,11 @@
     }
   }
 </script>
+
+<style scoped>
+  table {
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+</style>

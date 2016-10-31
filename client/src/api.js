@@ -18,11 +18,12 @@ export const deleteTeam = (teamId) => axios.delete(API_PATH + '/teams/' + teamId
 export const deleteUserFromTeam = (teamId, userId) => axios.delete(API_PATH + /teams/ + teamId + '/remove_user/' + userId + '.json')
 export const updateTournament = (tournamentId, tournament) => axios.patch(API_PATH + '/tournaments/' + tournamentId + '.json', { tournament: tournament })
 export const addUser = (teamId, userId) => axios.post(API_PATH + '/teams/' + teamId + '/add_user/' + userId + '.json')
+export const updateMatchStarted = (matchId) => axios.patch(API_PATH + '/matches/' + matchId + '.json', { match: { status: 'in_progress' } })
+export const updateMatchFinished = (points1, points2, matchId) => axios.patch(API_PATH + '/matches/' + matchId + '.json', { match: { status: 'finished', points_for_team1: points1, points_for_team2: points2 } })
 
 axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
-  // add more status codes handling if needed
   if (error.response.status === 401 || error.response.status === 403) {
     Auth.logout()
     router.push({name: 'login'})
