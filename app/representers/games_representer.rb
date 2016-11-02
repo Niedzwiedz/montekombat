@@ -5,7 +5,7 @@ class GamesRepresenter < BaseRepresenter
 
   def basic
     @games.map do |game|
-      GameRepresenter.new(game)
+      GameRepresenter.new(game).basic
     end
   end
 end

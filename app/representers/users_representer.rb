@@ -5,13 +5,7 @@ class UsersRepresenter < BaseRepresenter
 
   def basic
     @users.map do |user|
-      {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname,
-      }
+      UserRepresenter.new(user).basic
     end
   end
 end

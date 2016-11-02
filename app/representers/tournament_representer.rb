@@ -18,8 +18,8 @@ class TournamentRepresenter < BaseRepresenter
 
   def with_game_and_teams
     basic.merge(
-      game: GameRepresenter.new(@tournament.game),
-      teams: TeamsRepresenter.new(@tournament.teams),
+      game: GameRepresenter.new(@tournament.game).basic,
+      teams: TeamsRepresenter.new(@tournament.teams).with_users,
     )
   end
 end

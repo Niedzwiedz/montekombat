@@ -16,17 +16,11 @@ class User < ApplicationRecord
   }
 
   def tournament_member?(tournament)
-    tournament.teams.each do |team|
-      return true if team_member?(team)
-    end
-    false
+    tournament.teams.joins(:users).where(id: id).any?
   end
 
   def team_member?(team)
-    team.users.each do |user_in_team|
-      return true if user_in_team.id == id
-    end
-    false
+    team.users.where(id: id).any?
   end
 
   private

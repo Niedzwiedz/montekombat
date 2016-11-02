@@ -12,7 +12,7 @@ class TeamRepresenter < BaseRepresenter
 
   def with_users
     basic.merge(
-      users: UsersRepresenter.new(@team.users),
+      users: UsersRepresenter.new(@team.users).basic,
     )
   end
 end
