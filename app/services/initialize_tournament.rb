@@ -5,13 +5,15 @@ class InitializeTournament
       tournament_params["creator"] = creator
       tournament = Tournament.new(tournament_params)
       teams = initialize_teams(teams_params, tournament)
+
       ActiveRecord::Base.transaction do
         tournament.save!
         teams.each do |team|
           team.save!
         end
       end
-      return tournament
+
+      return tournament.reload
 
       rescue => tournament_transaction_error
         return tournament_transaction_error

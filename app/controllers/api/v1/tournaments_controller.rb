@@ -23,9 +23,9 @@ module Api
         if @tournament.instance_of? Tournament
           if @tournament.deathmatch?
             time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/60
-            # DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
+            DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
           end
-          render json: TournamentRepresenter.new(tournament)
+          render json: TournamentRepresenter.new(@tournament)
         else
           render json: {error: @tournament}
         end

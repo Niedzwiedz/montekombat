@@ -4,9 +4,10 @@
     <td> {{ match.team_2.name }} - {{ match.points_for_team2 }} </td>
     <td> {{ match.status }} </td>
     <td>
-        <button v-if="match.status == 'upcoming'" @click="startMatch()"> start </button>
-        <button v-if="match.status == 'in_progress'" @click="editScores()"> edit scores </button>
+        <button v-if="match.status == 'upcoming' && tournament.status == 'started'" @click="startMatch()"> start </button>
+        <button v-if="match.status == 'in_progress' && tournament.status == 'started'" @click="editScores()"> edit scores </button>
     </td>
+    <td> {{ match.winner.name }} </td>
   </tr>
 </template>
 
@@ -17,6 +18,9 @@
       match_id: Number
     },
     computed: {
+      tournament () {
+        return this.$store.state.tournaments[this.$store.state.tournaments.findIndex(({ id }) => id === this.$route.params.id)]
+      },
       match () {
         return this.$store.state.matches[this.$store.state.matches.findIndex(({ id }) => id === this.match_id)]
       }

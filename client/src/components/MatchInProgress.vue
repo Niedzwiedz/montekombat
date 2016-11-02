@@ -30,6 +30,11 @@
       endMatch () {
         this.match.status = 'finished'
         this.$store.dispatch('finishThisMatch', { points1: this.match.points_for_team1, points2: this.match.points_for_team2, matchId: this.$route.params.match_id })
+        if (this.match.points_for_team1 > this.match.points_for_team2) {
+          this.match.winner = this.match.team_1
+        } else {
+          this.match.winner = this.match.team_2
+        }
         router.push({ name: 'tournamentRounds', params: { id: this.$route.params.id } })
       }
     }

@@ -31,12 +31,10 @@ class Tournament < ApplicationRecord
     current_teams = teams.ids
     rounds.each do |round|
       round.matches.each do |match|
-        if match.finished?
-          if match.points_for_team1 > match.points_for_team2
-            current_teams.delete(match.team_2.id)
-          else
-            current_teams.delete(match.team_1.id)
-          end
+        if match.points_for_team1 > match.points_for_team2 && match.finished?
+          current_teams.delete(match.team_2.id)
+        else
+          current_teams.delete(match.team_1.id)
         end
       end
     end

@@ -35,7 +35,7 @@ class TournamentsController < ApplicationController
     @tournament = InitializeTournament.call(tournament_params, teams_params, current_user)
     if @tournament.deathmatch?
       time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/60
-      # DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
+      DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
     elsif @tournament.league?
 
     end

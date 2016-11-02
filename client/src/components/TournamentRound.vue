@@ -7,6 +7,7 @@
         <th> Second Team </th>
         <th> Status </th>
         <th> Actions </th>
+        <th> Winner </th>
       </tr>
       <tournamentMatch v-for="match in round.matches" :match_id='match.id'></tournamentMatch>
     </table>

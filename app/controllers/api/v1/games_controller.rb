@@ -2,7 +2,7 @@ module Api
   module V1
     class GamesController < ApplicationController
       def index
-        games = Game.select(:id, :name).all
+        games = Game.all
         render json: GamesRepresenter.new(games)
       end
     end
