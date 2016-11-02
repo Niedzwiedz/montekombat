@@ -1,15 +1,11 @@
-class TeamsRepresenter
+class TeamsRepresenter < BaseRepresenter
   def initialize(teams)
     @teams = teams
   end
 
-  def as_json(_ = {})
+  def basic
     @teams.map do |team|
-      {
-        id: team.id,
-        name: team.name,
-        users: UsersRepresenter.new(team.users),
-      }
+      TeamRepresenter.new(team).with_users
     end
   end
 end

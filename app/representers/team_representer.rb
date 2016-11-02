@@ -1,13 +1,18 @@
-class TeamRepresenter
+class TeamRepresenter < BaseRepresenter
   def initialize(team)
     @team = team
   end
 
-  def as_json(_ = {})
+  def basic
     {
       id: @team.id,
       name: @team.name,
-      users: UsersRepresenter.new(@team.users),
     }
+  end
+
+  def with_users
+    basic.merge(
+      users: UsersRepresenter.new(@team.users),
+    )
   end
 end

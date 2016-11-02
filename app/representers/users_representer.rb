@@ -1,9 +1,9 @@
-class UsersRepresenter
+class UsersRepresenter < BaseRepresenter
   def initialize(users)
     @users = users
   end
 
-  def as_json(_ = {})
+  def basic
     @users.map do |user|
       {
         id: user.id,
