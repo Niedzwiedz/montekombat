@@ -22,7 +22,7 @@ module Api
         @tournament = InitializeTournament.call(tournament_params, teams_params)
         if @tournament.instance_of? Tournament
           if @tournament.deathmatch?
-            time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/60
+            time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/360
             DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
           end
           render json: TournamentRepresenter.new(@tournament)
