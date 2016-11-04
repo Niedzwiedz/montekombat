@@ -7,13 +7,5 @@ FactoryGirl.define do
         team.users << create(:user)
       end
     end
-
-    trait :without_name do
-      name nil
-    end
-
-    trait :without_tournament do
-      tournament nil
-    end
   end
 end

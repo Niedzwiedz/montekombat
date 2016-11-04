@@ -44,12 +44,12 @@ class Tournament < ApplicationRecord
     teams.each { |team| players_count_in_team(team) }
   end
 
-  def players_in_tournament
-    User.joins(:teams).where(teams: { tournament_id: id })
+  def duplicated_players?
+    User.joins(:teams).where(teams: { tournament_id: id }).select(:id).group(:id).having("count(*) > 1").count.any?
   end
 
   def unique_players_in_tournament
-    unless players_in_tournament.distinct.length == players_in_tournament.length
+    if duplicated_players?
       errors[:tournament] << "Two teams in same tournament can't have same player."
     end
   end

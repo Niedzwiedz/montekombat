@@ -23,7 +23,7 @@ RSpec.describe TeamsController do
       end
     end
     context "with invalid attributes" do
-      let(:team) { build(:team, :without_name) }
+      let(:team) { build(:team).except(:name) }
       it { expect { post_create }.not_to change { Team.count } }
       it "renders :new template" do
         post_create

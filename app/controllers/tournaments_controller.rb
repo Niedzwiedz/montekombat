@@ -47,7 +47,8 @@ class TournamentsController < ApplicationController
 
   def update
     unless tournament.ended?
-      if tournament.update(edit_params(tournament))
+      begin
+        tournament.update!(edit_params(tournament))
         respond_to do |format|
           format.html do
             redirect_to tournament,
@@ -57,7 +58,7 @@ class TournamentsController < ApplicationController
             render json: TournamentRepresenter.new(tournament)
           end
         end
-      else
+      rescue ActiveRecord::RecordInvalid
         flash[:error] = tournament.errors.full_messages
         render :edit
       end

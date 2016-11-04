@@ -8,10 +8,6 @@ FactoryGirl.define do
     password_confirmation "aaaaaa"
     account_type "normal"
 
-    trait :without_email do
-      email nil
-    end
-
     trait :admin do
       account_type "admin"
     end

@@ -16,9 +16,9 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
     if @team.tournament.creator == current_user
       @user = User.find(user_params)
-      @team.users << @user
+      @team.users.build(@user)
     else
-      @team.users << current_user
+      @team.users.build(current_user)
     end
     if @team.save
       respond_to do |format|
