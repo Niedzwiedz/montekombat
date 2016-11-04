@@ -9,7 +9,7 @@
         <th> Actions </th>
         <th> Winner </th>
       </tr>
-      <tournamentMatch v-for="match in round.matches" :match_id='match.id'></tournamentMatch>
+      <tournamentMatch v-for="match in round.matches" :match_id='match.id' :round_id='round.id'></tournamentMatch>
     </table>
   </div>
 </template>
@@ -21,7 +21,15 @@
       TournamentMatch
     },
     props: {
-      round: {}
+      round_id: Number
+    },
+    computed: {
+      tournament () {
+        return this.$store.state.tournaments[this.$store.state.tournaments.findIndex(({ id }) => id === this.$route.params.id)]
+      },
+      round () {
+        return this.tournament.rounds[this.tournament.rounds.findIndex(({ id }) => id === this.round_id)]
+      }
     }
   }
 </script>

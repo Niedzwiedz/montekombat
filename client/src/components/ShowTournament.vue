@@ -23,6 +23,9 @@
       </div>
     </div>
     <div>
+      <p> Winner: {{ tournament.winner }} </p>
+    </div>
+    <div>
       <router-link :to="{ name: 'tournamentTeams', params: { id: $route.params.id } }"> Teams </router-link>
       <router-link :to="{ name: 'tournamentRounds', params: { id: $route.params.id } }"> Rounds </router-link>
       <router-link :to="{ name: 'tournamentEdit', params: { id: $route.params.id } }"> Edit </router-link>

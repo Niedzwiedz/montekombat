@@ -16,7 +16,7 @@ import MatchInProgress from './components/MatchInProgress.vue'
 import Login from './components/Login.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
-import { getMatches, getTournaments, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament, updateMatchFinished, updateMatchStarted } from './api'
+import { getMatches, getTournaments, getTournament, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament, updateMatchFinished, updateMatchStarted } from './api'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -119,6 +119,10 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    async getOneTournament ({commit}, tournamentId) {
+      var tournament = await getTournament(tournamentId)
+      commit('editTournament', tournament)
+    },
     async finishThisMatch ({commit}, matchObject) {
       var match = await updateMatchFinished(matchObject.points1, matchObject.points2, matchObject.matchId)
       commit('editMatch', match.data)

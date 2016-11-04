@@ -1,7 +1,6 @@
 module Api
   module V1
     class TeamsController < ApplicationController
-
       def index
         render json: TeamsRepresenter.new(Team.all)
       end

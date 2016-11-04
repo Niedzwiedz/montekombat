@@ -5,6 +5,7 @@ class RoundRepresenter
 
   def as_json(_ = {})
     {
+      id: @round.id,
       round_number: @round.round_number,
       matches: MatchesRepresenter.new(@round.matches),
     }

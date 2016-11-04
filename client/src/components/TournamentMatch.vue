@@ -15,7 +15,8 @@
   import { router } from '../main'
   export default {
     props: {
-      match_id: Number
+      match_id: Number,
+      round_id: Number
     },
     computed: {
       tournament () {
@@ -29,10 +30,10 @@
       startMatch () {
         this.match.status = 'in_progress'
         this.$store.dispatch('startThisMatch', this.match_id)
-        router.push({ name: 'matchPoints', params: { id: this.$route.params.id, match_id: this.match_id } })
+        router.push({ name: 'matchPoints', params: { id: this.$route.params.id, match_id: this.match_id, round_id: this.round_id } })
       },
       editScores () {
-        router.push({ name: 'matchPoints', params: { id: this.$route.params.id, match_id: this.match_id } })
+        router.push({ name: 'matchPoints', params: { id: this.$route.params.id, match_id: this.match_id, round_id: this.round_id } })
       }
     }
   }

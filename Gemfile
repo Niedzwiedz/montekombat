@@ -24,9 +24,9 @@ gem "jbuilder", "~> 2.5"
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
-gem 'rack-cors', :require => 'rack/cors'
-gem 'knock'
+gem "bcrypt", "~> 3.1.7"
+gem "rack-cors", :require => "rack/cors"
+gem "knock"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -67,6 +67,6 @@ end
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # popups for bootstrap
-source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.1.0'
+source "https://rails-assets.org" do
+  gem "rails-assets-tether", ">= 1.1.0"
 end

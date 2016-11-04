@@ -24,6 +24,9 @@
       },
       match () {
         return this.$store.state.matches[this.$store.state.matches.findIndex(({ id }) => id === this.$route.params.match_id)]
+      },
+      round () {
+        return this.tournament.rounds[this.tournament.rounds.findIndex(({ id }) => id === this.$route.params.round_id)]
       }
     },
     methods: {
@@ -34,6 +37,9 @@
           this.match.winner = this.match.team_1
         } else {
           this.match.winner = this.match.team_2
+        }
+        if (this.round.matches.find(({ status }) => status === 'upcoming' || status === 'in_progress') === undefined) {
+          this.$store.dispatch('getOneTournament', this.$route.params.id)
         }
         router.push({ name: 'tournamentRounds', params: { id: this.$route.params.id } })
       }

@@ -24,7 +24,7 @@
       <input type="number" v-model="number_of_players_in_team" min="1">
     </div>
     <div class="form-group">
-      <input placeholder="Add proper datepicker!" type="datetime-local" v-model="start_date">
+      <input placeholder="Add proper datepicker!" type="datetime" v-model="start_date">
     </div>
     <h2> Teams: </h2>
     <input placeholder="Add team name" v-model="newTeam" v-on:keyup.enter="addTeam">

@@ -22,12 +22,11 @@ module Api
         @tournament = InitializeTournament.call(tournament_params, teams_params)
         if @tournament.instance_of? Tournament
           if @tournament.deathmatch?
-            time = (@tournament.start_date.to_datetime.to_i - DateTime.now.to_i)/360
-            DeathmatchWorker.perform_in(time.minutes.from_now, @tournament.id)
+            DeathmatchWorker.perform_in(time(@tournament.start_date).minutes.from_now, @tournament.id)
           end
           render json: TournamentRepresenter.new(@tournament)
         else
-          render json: {error: @tournament}
+          render json: { error: @tournament }
         end
       end
 
@@ -41,10 +40,8 @@ module Api
       end
 
       def destroy
-        if tournament.open?
-          tournament.destroy
-          head :ok
-        end
+        tournament.destroy if tournament.open?
+        head :ok if tournament.open?
       end
 
       def types
@@ -55,6 +52,10 @@ module Api
       end
 
       private
+
+      def time(start_date)
+        (start_date.to_datetime.to_i - Time.zone.now.to_datetime.to_i) / 60
+      end
 
       def tournament
         @tournament ||= Tournament.find(params[:id])
