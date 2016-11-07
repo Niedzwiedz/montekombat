@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161103164257) do
+ActiveRecord::Schema.define(version: 20161011091006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,11 +86,6 @@ ActiveRecord::Schema.define(version: 20161103164257) do
     t.integer "account_type",    default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
-  end
-
-  create_table "winners", force: :cascade do |t|
-    t.integer "team_id"
-    t.index ["team_id"], name: "index_winners_on_team_id", using: :btree
   end
 
 end

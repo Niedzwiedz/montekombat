@@ -1,5 +1,5 @@
 // import {router} from './../main.js'
-import api, { postLogin } from '../api'
+import api, { postLogin, postSignUp } from '../api'
 import { router } from '../main'
 
 export default {
@@ -25,6 +25,11 @@ export default {
     this.user.username = ''
     this.user.id = ''
     router.push({name: 'login'})
+  },
+  signup (email, password, passwordConfirmation, username, firstname, lastname) {
+    postSignUp(email, password, passwordConfirmation, username, firstname, lastname).then(response => {
+      this.login(email, password)
+    })
   },
   checkAuth () {
     var jwt = localStorage.getItem('id_token')

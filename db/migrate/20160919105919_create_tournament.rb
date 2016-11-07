@@ -3,6 +3,7 @@ class CreateTournament < ActiveRecord::Migration[5.0]
     create_table :tournaments do |t|
       t.belongs_to :game, index: true, null: false
       t.belongs_to :creator, index: true, null: false
+      t.belongs_to :winner, index: true
       t.string :title, null: false
       t.integer :number_of_teams, null: false
       t.integer :status, default: 0

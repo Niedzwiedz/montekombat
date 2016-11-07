@@ -43,8 +43,8 @@ metallica = Team.create(name: "metallica fans", users: [killem_all, reload],
                         tournament: best_tournament)
 
 
-first_match = Match.create(game: mkx, team_1: metal, team_2: music, creator: reload)
-other_match = Match.create(game: fifa, team_1: metallica, team_2: music, creator: st_anger)
+first_match = Match.create(game: mkx, team_1: metal, team_2: music, creator: reload, match_type: "competetive")
+other_match = Match.create(game: fifa, team_1: metallica, team_2: music, creator: st_anger, match_type: "competetive")
 
 round1 = Round.create(round_number: 1, tournament: best_tournament,
                       matches: [first_match, other_match])

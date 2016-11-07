@@ -3,8 +3,7 @@ class Tournament < ApplicationRecord
 
   belongs_to :game
   belongs_to :creator, class_name: "User"
-  belongs_to :winner
-  has_one :team, through: :winner
+  belongs_to :winner, class_name: "Team"
   has_many :teams
   has_many :rounds
 
@@ -41,10 +40,6 @@ class Tournament < ApplicationRecord
       end
     end
     current_teams
-  end
-
-  def winner
-    playing_teams.first if playing_teams.count == 1
   end
 
   def empty_slots

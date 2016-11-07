@@ -11,9 +11,11 @@ import ShowTournament from './components/ShowTournament.vue'
 import TournamentTeams from './components/TournamentTeams.vue'
 import TournamentRounds from './components/TournamentRounds.vue'
 import NewTournament from './components/NewTournament.vue'
+import NewFriendlyMatch from './components/NewFriendlyMatch.vue'
 import EditTournament from './components/EditTournament.vue'
 import MatchInProgress from './components/MatchInProgress.vue'
 import Login from './components/Login.vue'
+import Signup from './components/SignUp.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
 import { getMatches, getTournaments, getTournament, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament, updateMatchFinished, updateMatchStarted } from './api'
@@ -25,7 +27,14 @@ const routes = [
   {
     path: '/matches',
     name: 'matches',
-    component: Matches
+    component: Matches,
+    children: [
+      {
+        path: 'new',
+        name: 'newFriendlyMatch',
+        component: NewFriendlyMatch
+      }
+    ]
   },
   {
     path: '/tournaments',
@@ -72,6 +81,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: Signup
   },
   {
     path: '/error',
@@ -177,7 +191,7 @@ new Vue({
 }).$mount('#app')
 
 router.beforeEach((to, from, next) => {
-  if (!(to.path === '/login')) {
+  if (!(to.path === '/login') && !(to.path === '/signup')) {
     Auth.checkAuth()
     if (Auth.user.authenticated === false) {
       router.push({name: 'login'})

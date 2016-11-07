@@ -41,7 +41,7 @@ class MatchRepresenter
         points_for_team1: @match.points_for_team1,
         points_for_team2: 0,
         game: GameRepresenter.new(@match.game),
-        team_1: { id: 0, name: 'TEAM LEFT', users: [] },
+        team_1: { id: 0, name: "TEAM LEFT", users: [] },
         team_2: TeamRepresenter.new(@match.team_2),
         winner: TeamRepresenter.new(@match.team_2),
       }
@@ -54,7 +54,7 @@ class MatchRepresenter
         points_for_team1: 0,
         points_for_team2: @match.points_for_team2,
         game: GameRepresenter.new(@match.game),
-        team_2: { id: 0, name: 'TEAM LEFT', users: [] },
+        team_2: { id: 0, name: "TEAM LEFT", users: [] },
         team_1: TeamRepresenter.new(@match.team_1),
         winner: TeamRepresenter.new(@match.team_1),
       }

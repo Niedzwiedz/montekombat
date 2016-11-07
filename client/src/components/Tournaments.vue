@@ -9,7 +9,7 @@
         <th class="table-header not-important"> teams </th>
         <th class="table-header not-important"> status </th>
       </tr>
-      <tournament v-for="tournament in this.$store.state.tournaments" :tournament="tournament"></tournament>
+      <tournament v-for="tournament in tournaments" :tournament="tournament"></tournament>
       <router-link :to="{ name: 'newTournament' }"> Create Tournament </router-link>
       <router-view></router-view>
     </table>
@@ -20,6 +20,11 @@
   import Tournament from './Tournament.vue'
 
   export default {
+    computed: {
+      tournaments () {
+        return this.$store.state.tournaments
+      }
+    },
     components: {
       Tournament
     }
