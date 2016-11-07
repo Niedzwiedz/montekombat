@@ -16,9 +16,9 @@ class TeamsController < ApplicationController
     @team = Team.new(team_params)
     if @team.tournament.creator == current_user
       @user = User.find(user_params)
-      @team.users.build(@user)
+      @team.users.build(@user.attributes)
     else
-      @team.users.build(current_user)
+      @team.users.build(current_user.attributes)
     end
     if @team.save
       respond_to do |format|
@@ -97,6 +97,6 @@ class TeamsController < ApplicationController
   end
 
   def user_params
-    params.require(:user)
+    params.require(:user).permit(:id, :username, :firstname, :lastname, :password, :password_confirmation, :email)
   end
 end

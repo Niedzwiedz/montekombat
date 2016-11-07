@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   # Check if user is logged in
-  before_action :logged_in_user, only: [:edit, :update, :users_index]
+  before_action :logged_in_user, only: [:edit, :update]
   # Check if user has rights to change something
   before_action :correct_user, only: [:edit, :update, :destroy]
   # Administrator
