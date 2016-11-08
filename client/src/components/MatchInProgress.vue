@@ -20,13 +20,22 @@
   export default {
     computed: {
       tournament () {
-        return this.$store.state.tournaments[this.$store.state.tournaments.findIndex(({ id }) => id === this.$route.params.id)]
+        var index = this.$store.state.tournaments.findIndex(({ id }) =>
+          id === this.$route.params.id
+        )
+        return this.$store.state.tournaments[index]
       },
       match () {
-        return this.$store.state.matches[this.$store.state.matches.findIndex(({ id }) => id === this.$route.params.match_id)]
+        var index = this.$store.state.matches.findIndex(({ id }) =>
+          id === this.$route.params.match_id
+        )
+        return this.$store.state.matches[index]
       },
       round () {
-        return this.tournament.rounds[this.tournament.rounds.findIndex(({ id }) => id === this.$route.params.round_id)]
+        var index = this.$store.state.rounds.findIndex(({ id }) =>
+          id === this.$route.params.round_id
+        )
+        return this.tournament.rounds[index]
       }
     },
     methods: {
