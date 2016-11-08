@@ -21,6 +21,7 @@ export const updateTournament = (tournamentId, tournament) => axios.patch(API_PA
 export const addUser = (teamId, userId) => axios.post(API_PATH + '/teams/' + teamId + '/add_user/' + userId + '.json')
 export const updateMatchStarted = (matchId) => axios.patch(API_PATH + '/matches/' + matchId + '.json', { match: { status: 'in_progress' } })
 export const updateMatchFinished = (points1, points2, matchId) => axios.patch(API_PATH + '/matches/' + matchId + '.json', { match: { status: 'finished', points_for_team1: points1, points_for_team2: points2 } })
+export const postMatch = (match, team1, team2, users1, users2) => axios.post(API_PATH + '/matches.json', { match: match, team_1: team1, team_2: team2, users_for_team1: users1, users_for_team2: users2 })
 
 axios.interceptors.response.use(function (response) {
   return response

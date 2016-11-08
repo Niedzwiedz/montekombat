@@ -7,8 +7,17 @@
 <script>
   export default {
     props: {
-      match: {
-        type: Object
+      match_id: {
+        type: Number,
+        required: true
+      }
+    },
+    computed: {
+      match () {
+        var index = this.$store.state.matches.findIndex(({ id }) =>
+          id === this.match_id
+        )
+        return this.$store.state.matches[index]
       }
     }
   }

@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20161011091006) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.integer "tournament_id", null: false
+    t.integer "tournament_id"
     t.string  "name"
     t.index ["tournament_id"], name: "index_teams_on_tournament_id", using: :btree
   end

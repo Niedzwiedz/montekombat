@@ -3,7 +3,7 @@
     <h1> Matches </h1>
     <div v-if="matches.length > 0">
       <ul>
-        <match v-for="match in matches" :match="match"></match>
+        <match v-for="match in matches" :match_id="match.id"></match>
       </ul>
     </div>
     <div v-else>
@@ -23,8 +23,9 @@
     },
     computed: {
       matches () {
+        // przeniesc do gettera w main.js
         /* eslint-disable camelcase */
-        return this.$store.state.matches.filter(({ match_type }) => match_type === 'friendly')
+        return this.$store.state.matches // .filter(({ match_type }) => match_type === 'friendly')
         /* eslint-enable camelcase */
       }
     }

@@ -26,8 +26,10 @@ class Team < ApplicationRecord
   end
 
   def cannot_be_too_many_players_in_team
-    if tournament.number_of_players_in_team < users.size
-      errors[:player] << "Can't be too many players in team"
+    unless tournament.nil?
+      if tournament.number_of_players_in_team < users.size
+        errors[:player] << "Can't be too many players in team"
+      end
     end
   end
 
@@ -36,8 +38,10 @@ class Team < ApplicationRecord
   end
 
   def unique_players_in_tournament
-    unless players_in_tournament.distinct.length == players_in_tournament.length
-      errors[:tournament] << "Two teams in same tournament can't have same player."
+    unless tournament.nil?
+      unless players_in_tournament.distinct.length == players_in_tournament.length
+        errors[:tournament] << "Two teams in same tournament can't have same player."
+      end
     end
   end
 

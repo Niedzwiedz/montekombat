@@ -35,7 +35,6 @@ module Api
           if tournament.update(edit_params(tournament))
             render json: TournamentRepresenter.new(tournament)
           end
-
         end
       end
 
@@ -54,7 +53,7 @@ module Api
       private
 
       def time(start_date)
-        (start_date.to_datetime.to_i - Time.zone.now.to_datetime.to_i) / 60
+        (start_date.to_datetime.to_i - DateTime.now.to_datetime.to_i) / 60
       end
 
       def tournament

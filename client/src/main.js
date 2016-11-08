@@ -18,7 +18,7 @@ import Login from './components/Login.vue'
 import Signup from './components/SignUp.vue'
 import Error from './components/Error.vue'
 import Auth from './auth/auth'
-import { getMatches, getTournaments, getTournament, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament, updateMatchFinished, updateMatchStarted } from './api'
+import { getMatches, getTournaments, getTournament, getUsers, postNewTournament, getGames, getTournamentTypes, updateTournament, updateMatchFinished, updateMatchStarted, postMatch } from './api'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -110,6 +110,9 @@ const store = new Vuex.Store({
     addTournament (state, tournament) {
       state.tournaments.push(tournament)
     },
+    addMatch (state, match) {
+      state.matches.push(match)
+    },
     setTournaments (state, tournaments) {
       state.tournaments = tournaments
     },
@@ -136,6 +139,10 @@ const store = new Vuex.Store({
     async getOneTournament ({commit}, tournamentId) {
       var tournament = await getTournament(tournamentId)
       commit('editTournament', tournament)
+    },
+    async addFriendlyMatch ({commit}, matchParams) {
+      var match = await postMatch(matchParams.match, matchParams.team1, matchParams.team2, matchParams.usersForTeam1, matchParams.usersForTeam2)
+      commit('addMatch', match)
     },
     async finishThisMatch ({commit}, matchObject) {
       var match = await updateMatchFinished(matchObject.points1, matchObject.points2, matchObject.matchId)

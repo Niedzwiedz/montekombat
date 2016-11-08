@@ -16,8 +16,12 @@ module Api
       end
 
       def create
-        match = Match.create(match_params)
-        render json: MatchRepresenter.new(match)
+        @match = InitializeMatch.call(new_match_params, team_1_params, team_2_params, team1_users_params, team2_users_params)
+        if @match.instance_of? Match
+          render json: MatchRepresenter.new(@match)
+        else
+          render json: { error: @match }
+        end
       end
 
       def update
@@ -41,9 +45,29 @@ module Api
       end
 
       def match_params
-        params_match = [:game, :team1, :team2, :status, :match_type, :points_for_team1, :points_for_team2] if match.friendly?
+        params_match = [:game_id, :team1, :team2, :status, :match_type, :points_for_team1, :points_for_team2] if match.friendly?
         params_match = [:points_for_team1, :points_for_team2, :status] if match.competetive?
         params.require(:match).permit(params_match)
+      end
+
+      def new_match_params
+        params.require(:match).permit(:game_id, :creator)
+      end
+
+      def team_1_params
+        params.require(:team_1).permit(:name)
+      end
+
+      def team1_users_params
+        params.require(:users_for_team1).permit!
+      end
+
+      def team_2_params
+        params.require(:team_2).permit(:name)
+      end
+
+      def team2_users_params
+        params.require(:users_for_team2).permit!
       end
     end
   end
