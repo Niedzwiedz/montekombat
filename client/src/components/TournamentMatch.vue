@@ -15,8 +15,14 @@
   import { router } from '../main'
   export default {
     props: {
-      match_id: Number,
-      round_id: Number
+      match_id: {
+        type: Number,
+        required: true
+      },
+      round_id: {
+        type: Number,
+        required: true
+      }
     },
     computed: {
       tournament () {

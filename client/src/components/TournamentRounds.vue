@@ -1,6 +1,9 @@
 <template>
   <div>
-    <tournamentRound v-for="round in rounds" :round_id='round.id'></tournamentRound>
+    <tournamentRound v-if="rounds.length > 0" v-for="round in rounds" :round_id='round.id'></tournamentRound>
+    <div v-else>
+      <h3> Rounds not generated yet </h3>
+    </div>
     <router-view></router-view>
   </div>
 </template>

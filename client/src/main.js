@@ -193,12 +193,14 @@ new Vue({
 router.beforeEach((to, from, next) => {
   if (!(to.path === '/login') && !(to.path === '/signup')) {
     Auth.checkAuth()
-    if (Auth.user.authenticated === false) {
-      router.push({name: 'login'})
-    } else {
+    if (Auth.user.authenticated === true) {
       next()
+    } else if (Auth.user.authenticated === false) {
+      router.push({name: 'login'})
     }
   } else {
-    next()
+    if (!(Auth.user.authenticated === true)) {
+      next()
+    }
   }
 })

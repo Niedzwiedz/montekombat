@@ -27,7 +27,10 @@
   import { postNewTeam, deleteTeam, deleteUserFromTeam, addUser } from '../api'
   export default {
     props: {
-      teams: {}
+      teams: {
+        type: Array,
+        required: true
+      }
     },
     data () {
       return {

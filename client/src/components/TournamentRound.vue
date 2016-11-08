@@ -21,7 +21,10 @@
       TournamentMatch
     },
     props: {
-      round_id: Number
+      round_id: {
+        type: Number,
+        required: true
+      }
     },
     computed: {
       tournament () {
