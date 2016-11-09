@@ -23,10 +23,7 @@
     },
     computed: {
       matches () {
-        // przeniesc do gettera w main.js
-        /* eslint-disable camelcase */
-        return this.$store.state.matches // .filter(({ match_type }) => match_type === 'friendly')
-        /* eslint-enable camelcase */
+        return this.$store.getters.friendlyMatches
       }
     }
   }

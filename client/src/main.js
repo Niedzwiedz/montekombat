@@ -106,6 +106,13 @@ const store = new Vuex.Store({
     games: [],
     tournament_types: []
   },
+  getters: {
+    friendlyMatches: state => {
+      /* eslint-disable camelcase */
+      return state.matches.filter(({ match_type }) => match_type === 'friendly')
+      /* eslint-enable camelcase */
+    }
+  },
   mutations: {
     addTournament (state, tournament) {
       state.tournaments.push(tournament)
@@ -142,7 +149,7 @@ const store = new Vuex.Store({
     },
     async addFriendlyMatch ({commit}, matchParams) {
       var match = await postMatch(matchParams.match, matchParams.team1, matchParams.team2, matchParams.usersForTeam1, matchParams.usersForTeam2)
-      commit('addMatch', match)
+      commit('addMatch', match.data)
     },
     async finishThisMatch ({commit}, matchObject) {
       var match = await updateMatchFinished(matchObject.points1, matchObject.points2, matchObject.matchId)
