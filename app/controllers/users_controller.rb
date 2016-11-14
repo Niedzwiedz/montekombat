@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   # Check if user is logged in
-  before_action :logged_in_user, only: [:edit, :update]
+  before_action :ensure_logged_in, only: [:edit, :update]
   # Check if user has rights to change something
   before_action :correct_user, only: [:edit, :update, :destroy]
   # Administrator
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @users = User.all
     respond_to do |format|
       format.html
-      format.json { render json: UsersRepresenter.new(@users)}
+      format.json { render json: UsersRepresenter.new(@users) }
     end
   end
 
@@ -58,13 +58,6 @@ class UsersController < ApplicationController
 
   def user
     @user ||= User.find(params[:id])
-  end
-
-  def logged_in_user
-    unless logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to login_path
-    end
   end
 
   def correct_user

@@ -1,7 +1,9 @@
 class TournamentsController < ApplicationController
-  before_action :check_if_logged_in_user, only: [:new, :create, :edit, :update,
-                                                 :edit_teams, :check_if_user_is_creator]
-  before_action :check_if_user_is_creator, only: [:update, :destroy]
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+  rescue_from NoMethodError, with: :record_invalid
+  rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
+  before_action :ensure_logged_in, only: [:new, :create, :edit, :update, :edit_teams]
+  before_action :ensure_creator, only: [:update, :destroy]
 
   def index
     @tournaments = Tournament.all
@@ -11,7 +13,7 @@ class TournamentsController < ApplicationController
     tournament
     respond_to do |format|
       format.html
-      format.json { render json: TournamentRepresenter.new(tournament) }
+      format.json { render json: TournamentRepresenter.new(tournament).with_game_and_teams }
     end
   end
 
@@ -29,7 +31,7 @@ class TournamentsController < ApplicationController
 
   def create
     @tournament = InitializeTournament.call(tournament_params, teams_params, current_user)
-    if @tournament.instance_of? Tournament
+    if @tournament
       respond_to do |format|
         format.html do
           redirect_to @tournament,
@@ -40,8 +42,6 @@ class TournamentsController < ApplicationController
           render json: TournamentRepresenter.new(tournament)
         end
       end
-    else
-      flash[:error] = @tournament.message
     end
   end
 
@@ -88,20 +88,23 @@ class TournamentsController < ApplicationController
     end
   end
 
+  protected
+
+  def record_invalid(exception)
+    render json: { error: exception.message }, status: 500
+  end
+
+  def record_not_unique
+    render json: { error: "There must be unique users in tournaments and teams" }, status: 500
+  end
+
   private
 
   def tournament
     @tournament ||= Tournament.find(params[:id])
   end
 
-  def check_if_logged_in_user
-    unless logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to login_path
-    end
-  end
-
-  def check_if_user_is_creator
+  def ensure_creator
     creator_id = tournament.creator.id
     redirect_to root_path if current_user.id != creator_id && !current_user.admin?
   end
@@ -117,17 +120,13 @@ class TournamentsController < ApplicationController
   end
 
   def teams_params
-    params.require(:teams).permit!
+    params.require(:teams).permit(team_list: [:name, users: [:id]])
   end
 
   def tournament_started_params
     params.require(:tournament).permit(:title, :description)
   end
 
-  # ------------------------------------------------------------------
-  # edit_params(tournament) - changes params that can be edited
-  # dependant on tournament status.
-  # ------------------------------------------------------------------
   def edit_params(tournament)
     if tournament.open?
       tournament_params

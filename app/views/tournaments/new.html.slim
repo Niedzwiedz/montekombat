@@ -17,7 +17,6 @@
       select v-model="selected_type"
         option v-for="type in types" v-bind:value="type"
           | {{ type }}
-
     p
       | Number of teams:
       input type="number" v-model="number_of_teams" min="1"

@@ -10,10 +10,15 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
 //= require tether
 //= require bootstrap-sprockets
+//= require jquery_ujs
+//= require vue
+//= require vue-router
+//= require vue-resource
+//= require turbolinks
 //= require_tree .
-
 
 var tournaments = new Vue({
     el: '#tournament_form',
@@ -86,11 +91,13 @@ var tournaments = new Vue({
         },
         sendTournament: function () {
             var that = this;
+            console.log(that.selected_type);
+            // let teams_object = Object.assign({}, that.teams);
             $.ajax({
                 method: 'POST',
                 data: {
                     tournament: {
-                        game_id: that.selected_game.id,
+                        game_id: that.selected_game,
                         title: that.tournament_title,
                         description: that.tournament_description,
                         tournament_type: that.selected_type,
@@ -98,7 +105,7 @@ var tournaments = new Vue({
                         number_of_players_in_team: that.number_of_players_in_team,
                         start_date: that.start_date
                     },
-                    teams: that.teams
+                  teams: { team_list: that.teams }
                 },
                 url: '/tournaments.json'
             });
@@ -173,7 +180,9 @@ var tournament_edit = new Vue({
                         name: text,
                         tournament_id: id
                     },
-                    user: that.selected_user
+                    user: {
+                      id: that.selected_user
+                    }
                 },
                 success: function(response) {
                     alert(JSON.stringify(response));

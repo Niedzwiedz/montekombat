@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_many :team_users
   has_many :teams, through: :team_users
+  has_many :tournament_users
+  has_many :tournaments, through: :tournament_users
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 50 }
   validates_format_of :email, with: /@/

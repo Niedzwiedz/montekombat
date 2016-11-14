@@ -1,8 +1,8 @@
 class TeamsController < ApplicationController
-  before_action :check_if_logged_in_user, only: [:new, :create, :edit, :update,
-                                                 :edit_teams, :check_if_user_is_creator,
-                                                 :add_user, :remove_user]
-  before_action :check_if_user_is_creator, only: [:destroy]
+  before_action :ensure_logged_in, only: [:new, :create, :edit, :update,
+                                          :edit_teams, :check_if_user_is_creator,
+                                          :add_user, :remove_user]
+  before_action :ensure_creator, only: [:destroy]
 
   def edit
     team
@@ -15,15 +15,15 @@ class TeamsController < ApplicationController
   def create
     @team = Team.new(team_params)
     if @team.tournament.creator == current_user
-      @user = User.find(user_params)
-      @team.users.build(@user.attributes)
+      @team.team_users.build({ user_id: user_params["id"] })
     else
-      @team.users.build(current_user.attributes)
+      @team.users.build(current_user.id)
     end
     if @team.save
+      @team.reload
       respond_to do |format|
         format.html { redirect_to root_path, notice: "Team was successfully created." }
-        format.json { render json: TeamRepresenter.new(@team) }
+        format.json { render json: TeamRepresenter.new(@team).with_users }
       end
     else
       flash[:error] = @team.errors.full_messages
@@ -76,14 +76,7 @@ class TeamsController < ApplicationController
 
   private
 
-  def check_if_logged_in_user
-    unless logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to login_path
-    end
-  end
-
-  def check_if_user_is_creator
+  def ensure_creator
     creator_id = team.tournament.creator.id
     redirect_to root_path if current_user.id != creator_id && !current_user.admin?
   end
@@ -97,6 +90,6 @@ class TeamsController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:id, :username, :firstname, :lastname, :password, :password_confirmation, :email)
+    params.require(:user).permit(:id)
   end
 end

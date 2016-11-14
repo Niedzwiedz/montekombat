@@ -22,7 +22,7 @@ st_anger = User.create(username: "St.Anger", email: "anger@st.com", firstname: "
 mkx = Game.create(name: "Mortal Kombat X")
 fifa = Game.create(name: "Fifa 2016")
 
-best_tournament = Tournament.create(game: mkx, creator: reload, title: "BestTournamentEva.", number_of_teams: 6, start_date: Time.now + 2.days, number_of_players_in_team: 6)
+best_tournament = Tournament.create(game: mkx, creator: reload, title: "BestTournamentEva.", number_of_teams: 6, start_date: Time.now + 2.days, number_of_players_in_team: 6, users: [load, master_of_puppets, ride_the_lightning, killem_all, reload])
 
 no = Team.create(name: "no fans", users: [load], tournament: best_tournament)
 metal = Team.create(name: "metal fans", users: [master_of_puppets], tournament: best_tournament)
@@ -30,4 +30,3 @@ music = Team.create(name: "music fans", users: [ride_the_lightning], tournament:
 metallica = Team.create(name: "metallica fans", users: [killem_all, reload], tournament: best_tournament)
 
 Match.create(game: mkx, team_1: metal, team_2: music)
-Match.create(game: fifa, team_1: metallica, team_2: music)
