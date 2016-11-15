@@ -38,9 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_logged_in
-    unless logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to login_path
-    end
+    flash[:danger] = "Please log in." unless logged_in?
+    redirect_to login_path unless logged_in?
   end
 end

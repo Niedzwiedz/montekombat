@@ -91,8 +91,6 @@ var tournaments = new Vue({
         },
         sendTournament: function () {
             var that = this;
-            console.log(that.selected_type);
-            // let teams_object = Object.assign({}, that.teams);
             $.ajax({
                 method: 'POST',
                 data: {

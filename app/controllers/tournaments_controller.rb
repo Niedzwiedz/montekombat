@@ -1,6 +1,5 @@
 class TournamentsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
-  rescue_from NoMethodError, with: :record_invalid
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
   before_action :ensure_logged_in, only: [:new, :create, :edit, :update, :edit_teams]
   before_action :ensure_creator, only: [:update, :destroy]
@@ -31,16 +30,14 @@ class TournamentsController < ApplicationController
 
   def create
     @tournament = InitializeTournament.call(tournament_params, teams_params, current_user)
-    if @tournament
-      respond_to do |format|
-        format.html do
-          redirect_to @tournament,
-                      notice: "Tournament was successfully created."
-        end
-        format.json do
-          flash[:error] = "Tournament created."
-          render json: TournamentRepresenter.new(tournament)
-        end
+    respond_to do |format|
+      format.html do
+        redirect_to @tournament,
+                    notice: "Tournament was successfully created."
+      end
+      format.json do
+        flash[:error] = "Tournament created."
+        render json: TournamentRepresenter.new(tournament)
       end
     end
   end

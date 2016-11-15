@@ -15,9 +15,9 @@ class TeamsController < ApplicationController
   def create
     @team = Team.new(team_params)
     if @team.tournament.creator == current_user
-      @team.team_users.build({ user_id: user_params["id"] })
+      @team.team_users.build(user_id: user_params["id"])
     else
-      @team.users.build(current_user.id)
+      @team.team_users.build(user_id: current_user.id)
     end
     if @team.save
       @team.reload
