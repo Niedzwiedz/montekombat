@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import { sync } from 'vuex-router-sync'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 
@@ -111,6 +112,16 @@ const store = new Vuex.Store({
       /* eslint-disable camelcase */
       return state.matches.filter(({ match_type }) => match_type === 'friendly')
       /* eslint-enable camelcase */
+    },
+    currentTournament: (state, route) => {
+      console.log(route.params.id)
+      return state.tournaments.find(({ id }) => id === route.params.id)
+    },
+    currentMatch: (state, route) => {
+      return state.matches.find(({ id }) => id === route.params.match_id)
+    },
+    currentRound: (state, route) => {
+      return state.matches.find(({ id }) => id === route.params.round_id)
     }
   },
   mutations: {
@@ -144,52 +155,53 @@ const store = new Vuex.Store({
   },
   actions: {
     async getOneTournament ({commit}, tournamentId) {
-      var tournament = await getTournament(tournamentId)
+      let tournament = await getTournament(tournamentId)
       commit('editTournament', tournament)
     },
     async addFriendlyMatch ({commit}, matchParams) {
-      var match = await postMatch(matchParams.match, matchParams.team1, matchParams.team2, matchParams.usersForTeam1, matchParams.usersForTeam2)
+      let match = await postMatch(matchParams.match, matchParams.team1, matchParams.team2, matchParams.usersForTeam1, matchParams.usersForTeam2)
       commit('addMatch', match.data)
     },
     async finishThisMatch ({commit}, matchObject) {
-      var match = await updateMatchFinished(matchObject.points1, matchObject.points2, matchObject.matchId)
+      let match = await updateMatchFinished(matchObject.points1, matchObject.points2, matchObject.matchId)
       commit('editMatch', match.data)
     },
     async startThisMatch ({commit}, matchId) {
-      var match = await updateMatchStarted(matchId)
+      let match = await updateMatchStarted(matchId)
       commit('editMatch', match.data)
     },
     async addNewTournament ({commit}, tournamentParams) {
-      var tournament = await postNewTournament(tournamentParams.tournament, tournamentParams.teams)
+      let tournament = await postNewTournament(tournamentParams.tournament, tournamentParams.teams)
       commit('addTournament', tournament.data)
     },
     async getAllTournaments ({commit}) {
-      var tournaments = await getTournaments()
+      let tournaments = await getTournaments()
       commit('setTournaments', tournaments.data)
     },
     async getAllUsers ({commit}) {
-      var users = await getUsers()
+      let users = await getUsers()
       commit('setUsers', users.data)
     },
     async getAllGames ({commit}) {
-      var games = await getGames()
+      let games = await getGames()
       commit('setGames', games.data)
     },
     async getAllTournamentTypes ({commit}) {
-      var types = await getTournamentTypes()
+      let types = await getTournamentTypes()
       commit('setTournamentTypes', types.data)
     },
     async editOneTournament ({commit}, tournamentParams) {
-      var tournament = await updateTournament(tournamentParams['id'], tournamentParams['tournament'])
+      let tournament = await updateTournament(tournamentParams['id'], tournamentParams['tournament'])
       commit('editTournament', tournament.data)
     },
     async getAllMatches ({commit}) {
-      var matches = await getMatches()
+      let matches = await getMatches()
       commit('setMatches', matches.data)
     }
   }
 })
 
+sync(store, router)
 /* eslint-disable no-new */
 new Vue({
   router,

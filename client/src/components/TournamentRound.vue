@@ -28,16 +28,10 @@
     },
     computed: {
       tournament () {
-        var index = this.$store.state.tournaments.findIndex(({ id }) =>
-          id === this.$route.params.id
-        )
-        return this.$store.state.tournaments[index]
+        return this.$store.state.tournaments.find(({ id }) => id === this.$route.params.id)
       },
       round () {
-        var index = this.tournament.rounds.findIndex(({ id }) =>
-          id === this.round_id
-        )
-        return this.tournament.rounds[index]
+        return this.tournament.rounds.find(({ id }) => id === this.round_id)
       }
     }
   }
