@@ -183,7 +183,6 @@ var tournament_edit = new Vue({
                     }
                 },
                 success: function(response) {
-                    alert(JSON.stringify(response));
                     that.teams_display.push({ id: response.id, name: response.name, users: response.users});
                     that.newTeam= '';
                 }
@@ -199,8 +198,13 @@ var tournament_edit = new Vue({
             $.ajax({
                 method: 'POST',
                 url: '/teams/' + that.teams_display[index].id + '/add_user/' + id,
+                data: {
+                  user: {
+                    id: id
+                  }
+                },
                 success: function(){
-                    that.teams_display[index].users.push({ username: user[0].username, id: id });
+                  that.teams_display[index].users.push({ username: user[0].username, id: id });
                 }
             });
         },

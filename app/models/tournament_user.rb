@@ -7,7 +7,7 @@ class TournamentUser < ApplicationRecord
   validate :duplicated_players
 
   def duplicated_players
-    if tournament.tournament_users.uniq.count < tournament.tournament_users.count
+    if tournament.tournament_users.uniq.size < tournament.tournament_users.size
       errors[:tournament] << "Can't be duplicated players in tournament"
     end
   end
