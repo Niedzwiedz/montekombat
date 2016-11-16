@@ -29,7 +29,7 @@ class MatchRepresenter
           game: GameRepresenter.new(@match.game),
           team_1: TeamRepresenter.new(@match.team_1),
           team_2: TeamRepresenter.new(@match.team_2),
-          winner: "-",
+          winner: { name: "-" },
         }
       end
     elsif @match.team_1_id == 0

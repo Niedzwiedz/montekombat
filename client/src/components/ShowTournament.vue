@@ -38,10 +38,7 @@
   export default {
     computed: {
       tournament () {
-        var index = this.$store.state.tournaments.findIndex(({ id }) =>
-          id === this.$route.params.id
-        )
-        return this.$store.state.tournaments[index]
+        return this.$store.getters.currentTournament
       }
     }
   }

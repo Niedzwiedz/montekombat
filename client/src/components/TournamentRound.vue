@@ -28,7 +28,7 @@
     },
     computed: {
       tournament () {
-        return this.$store.state.tournaments.find(({ id }) => id === this.$route.params.id)
+        return this.$store.getters.currentTournament
       },
       round () {
         return this.tournament.rounds.find(({ id }) => id === this.round_id)

@@ -26,10 +26,10 @@
     },
     computed: {
       tournament () {
-        return this.$store.state.tournaments[this.$store.state.tournaments.findIndex(({ id }) => id === this.$route.params.id)]
+        return this.$store.getters.currentTournament
       },
       match () {
-        return this.$store.state.matches[this.$store.state.matches.findIndex(({ id }) => id === this.match_id)]
+        return this.$store.state.matches.find(({ id }) => id === this.match_id)
       }
     },
     methods: {

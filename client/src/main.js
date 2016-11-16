@@ -114,14 +114,14 @@ const store = new Vuex.Store({
       /* eslint-enable camelcase */
     },
     currentTournament: (state, route) => {
-      console.log(route.params.id)
-      return state.tournaments.find(({ id }) => id === route.params.id)
+      return state.tournaments.find(({ id }) => id === state.route.params.id)
     },
     currentMatch: (state, route) => {
-      return state.matches.find(({ id }) => id === route.params.match_id)
+      return state.matches.find(({ id }) => id === state.route.params.match_id)
     },
     currentRound: (state, route) => {
-      return state.matches.find(({ id }) => id === route.params.round_id)
+      let tournament = state.tournaments.find(({ id }) => id === state.route.params.id)
+      return tournament.rounds.find(({ id }) => id === state.route.params.round_id)
     }
   },
   mutations: {
@@ -162,9 +162,10 @@ const store = new Vuex.Store({
       let match = await postMatch(matchParams.match, matchParams.team1, matchParams.team2, matchParams.usersForTeam1, matchParams.usersForTeam2)
       commit('addMatch', match.data)
     },
-    async finishThisMatch ({commit}, matchObject) {
+    async finishThisMatch ({commit, dispatch}, matchObject) {
       let match = await updateMatchFinished(matchObject.points1, matchObject.points2, matchObject.matchId)
       commit('editMatch', match.data)
+      dispatch('getAllTournaments')
     },
     async startThisMatch ({commit}, matchId) {
       let match = await updateMatchStarted(matchId)
@@ -202,6 +203,7 @@ const store = new Vuex.Store({
 })
 
 sync(store, router)
+
 /* eslint-disable no-new */
 new Vue({
   router,
