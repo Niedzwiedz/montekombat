@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919105919) do
+ActiveRecord::Schema.define(version: 20161011091006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,14 +24,26 @@ ActiveRecord::Schema.define(version: 20160919105919) do
     t.integer  "game_id",                      null: false
     t.integer  "team_1_id",                    null: false
     t.integer  "team_2_id",                    null: false
+    t.integer  "winner_id"
+    t.integer  "round_id"
+    t.integer  "creator_id",                   null: false
     t.integer  "points_for_team1", default: 0
     t.integer  "points_for_team2", default: 0
     t.datetime "date"
     t.integer  "match_type",       default: 0
     t.integer  "status",           default: 0
+    t.index ["creator_id"], name: "index_matches_on_creator_id", using: :btree
     t.index ["game_id"], name: "index_matches_on_game_id", using: :btree
+    t.index ["round_id"], name: "index_matches_on_round_id", using: :btree
     t.index ["team_1_id"], name: "index_matches_on_team_1_id", using: :btree
     t.index ["team_2_id"], name: "index_matches_on_team_2_id", using: :btree
+    t.index ["winner_id"], name: "index_matches_on_winner_id", using: :btree
+  end
+
+  create_table "rounds", force: :cascade do |t|
+    t.integer "tournament_id", null: false
+    t.integer "round_number"
+    t.index ["tournament_id"], name: "index_rounds_on_tournament_id", using: :btree
   end
 
   create_table "team_users", force: :cascade do |t|
@@ -43,7 +55,7 @@ ActiveRecord::Schema.define(version: 20160919105919) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.integer "tournament_id", null: false
+    t.integer "tournament_id"
     t.string  "name"
     t.index ["tournament_id"], name: "index_teams_on_tournament_id", using: :btree
   end
@@ -51,6 +63,7 @@ ActiveRecord::Schema.define(version: 20160919105919) do
   create_table "tournaments", force: :cascade do |t|
     t.integer  "game_id",                               null: false
     t.integer  "creator_id",                            null: false
+    t.integer  "winner_id"
     t.string   "title",                                 null: false
     t.integer  "number_of_teams",                       null: false
     t.integer  "status",                    default: 0
@@ -61,6 +74,7 @@ ActiveRecord::Schema.define(version: 20160919105919) do
     t.string   "tournament_picture"
     t.index ["creator_id"], name: "index_tournaments_on_creator_id", using: :btree
     t.index ["game_id"], name: "index_tournaments_on_game_id", using: :btree
+    t.index ["winner_id"], name: "index_tournaments_on_winner_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|

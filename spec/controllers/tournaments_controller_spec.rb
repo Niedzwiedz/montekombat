@@ -35,8 +35,11 @@ RSpec.describe TournamentsController do
     end
   end
   describe "POST #create" do
-    subject(:post_create) { post :create, params: { tournament: tournament.attributes, teams: team.attributes } }
-    let(:team) { build(:team) }
+    subject(:post_create) do
+      post :create, params: { tournament: tournament.attributes,
+                              teams: team.attributes }
+    end
+    let(:team) { create(:team) }
     context "As logged in user" do
       before { log_in_user }
 
@@ -49,7 +52,7 @@ RSpec.describe TournamentsController do
         end
       end
 
-      context "with invalid attribures" do
+      context "with invalid attributes" do
         let(:tournament) { build(:tournament, :without_title) }
         it { expect { post_create }.not_to change { Tournament.count } }
         it "renders new template" do

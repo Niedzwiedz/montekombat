@@ -3,15 +3,19 @@ class Tournament < ApplicationRecord
 
   belongs_to :game
   belongs_to :creator, class_name: "User"
+  belongs_to :winner, class_name: "Team"
   has_many :teams
+  has_many :rounds
 
   accepts_nested_attributes_for :teams
 
-  validates :title, :game, :creator, :number_of_teams, presence: true
+  validates :title, :start_date, :game, :creator, :number_of_teams, presence: true
   validates :number_of_players_in_team, presence: true
   validate :check_team_number
   validate :check_player_number
-  validate :players_count_in_tournament
+  validate :each_team_players_count
+  validate :cannot_be_too_many_teams
+  validate :unique_players_in_tournament
 
   enum status: {
     open: 0,
@@ -24,23 +28,47 @@ class Tournament < ApplicationRecord
     league: 1,
   }
 
+  def playing_teams
+    current_teams = teams.ids
+    rounds.each do |round|
+      round.matches.each do |match|
+        if match.points_for_team1 > match.points_for_team2 && match.finished?
+          current_teams.delete(match.team_2.id)
+        else
+          current_teams.delete(match.team_1.id)
+        end
+      end
+    end
+    current_teams
+  end
+
   def empty_slots
     number_of_slots - player_count
   end
 
   def player_count
-    User.joins(:teams).where(teams: { tournament_id: id }).count
+    players_in_tournament.count
   end
 
   def number_of_slots
     number_of_players_in_team * number_of_teams
   end
 
-  def players_count_in_tournament
+  private
+
+  def each_team_players_count
     teams.each { |team| players_count_in_team(team) }
   end
 
-  private
+  def players_in_tournament
+    User.joins(:teams).where(teams: { tournament_id: id })
+  end
+
+  def unique_players_in_tournament
+    unless players_in_tournament.distinct.length == players_in_tournament.length
+      errors[:tournament] << "Two teams in same tournament can't have same player."
+    end
+  end
 
   def players_count_in_team(team)
     team_max_size_check(team) if number_of_players_in_team.present? && team.users.size.present?

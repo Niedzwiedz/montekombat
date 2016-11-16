@@ -1,8 +1,10 @@
 class InitializeTournament
   class << self
     def call(tournament_params, teams_params)
-      tournament = Tournament.new(**tournament_params)
-      teams = initialize_teams(teams_params["teams"], tournament)
+      creator = User.find(tournament_params["creator"])
+      tournament_params["creator"] = creator
+      tournament = Tournament.new(tournament_params)
+      teams = initialize_teams(teams_params, tournament)
 
       ActiveRecord::Base.transaction do
         tournament.save!
@@ -10,7 +12,8 @@ class InitializeTournament
           team.save!
         end
       end
-      return tournament
+
+      return tournament.reload
 
       rescue => tournament_transaction_error
         return tournament_transaction_error
@@ -33,8 +36,8 @@ class InitializeTournament
 
     def initialize_users(team_users_params)
       users = []
-      team_users_params.map do |team_user_params|
-        users << User.find(team_user_params[1]["id"])
+      team_users_params.each do |team_user_params|
+        users << User.find(team_user_params["id"])
       end
       users
     end

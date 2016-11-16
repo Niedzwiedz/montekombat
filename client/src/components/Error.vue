@@ -1,0 +1,5 @@
+<template>
+  <div>
+    <h1> Error </h1>
+    <p> Sorry, there was an error. </p>
+</template>
