@@ -4,7 +4,7 @@ class Tournament < ApplicationRecord
   belongs_to :game
   belongs_to :creator, class_name: "User"
   has_many :teams
-  has_many :tournament_users, validate: true
+  has_many :tournament_users
   has_many :users, through: :tournament_users
 
   accepts_nested_attributes_for :teams

@@ -5,7 +5,7 @@ class TeamUser < ApplicationRecord
   validate :duplicated_players
 
   def duplicated_players
-    if team.team_users.uniq.size < team.team_users.size
+    if team.team_users.uniq.count < team.team_users.size
       errors[:team] << "Can't be duplicated players in teams"
     end
   end
