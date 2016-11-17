@@ -30,17 +30,17 @@ RSpec.describe Tournament do
 
   context "with invalid attributes" do
     context "without title" do
-      let(:tournament) { build(:tournament, :without_title) }
+      let(:tournament) { build(:tournament).except(:title) }
       it { expect(tournament).not_to be_valid }
     end
 
     context "without game" do
-      let(:tournament) { build(:tournament, :without_game) }
+      let(:tournament) { build(:tournament).except(:game) }
       it { expect(tournament).not_to be_valid }
     end
 
     context "without owner" do
-      let(:tournament) { build(:tournament, :without_owner) }
+      let(:tournament) { build(:tournament).except(:owner) }
       it { expect(tournament).not_to be_valid }
     end
 

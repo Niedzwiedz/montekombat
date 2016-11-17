@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_many :team_users
   has_many :teams, through: :team_users
+  has_many :tournament_users
+  has_many :tournaments, through: :tournament_users
 
   validates :email, presence: true, uniqueness: true, length: { maximum: 50 }
   validates_format_of :email, with: /@/
@@ -16,17 +18,11 @@ class User < ApplicationRecord
   }
 
   def tournament_member?(tournament)
-    tournament.teams.each do |team|
-      return true if team_member?(team)
-    end
-    false
+    tournament.teams.joins(:users).where(users: { id: id }).any?
   end
 
   def team_member?(team)
-    team.users.each do |user_in_team|
-      return true if user_in_team.id == id
-    end
-    false
+    team.users.where(id: id).any?
   end
 
   has_secure_password

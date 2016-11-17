@@ -1,25 +1,16 @@
 class UsersController < ApplicationController
   # Check if user is logged in
-  before_action :logged_in_user, only: [:index, :edit, :update, :users_index]
+  before_action :ensure_logged_in, only: [:edit, :update]
   # Check if user has rights to change something
   before_action :correct_user, only: [:edit, :update, :destroy]
   # Administrator
-  before_action :administrator, only: [:index]
+  # before_action :administrator, only: [:index]
 
   def index
     @users = User.all
     respond_to do |format|
       format.html
-      format.json { render json: @users }
-    end
-  end
-
-  # Returns only usernames with indexes, so passwords and other
-  # data is safe
-  def users_index
-    @users = User.select("username, id").all
-    respond_to do |format|
-      format.json { render json: @users }
+      format.json { render json: UsersRepresenter.new(@users) }
     end
   end
 
@@ -67,13 +58,6 @@ class UsersController < ApplicationController
 
   def user
     @user ||= User.find(params[:id])
-  end
-
-  def logged_in_user
-    unless logged_in?
-      flash[:danger] = "Please log in."
-      redirect_to login_path
-    end
   end
 
   def correct_user

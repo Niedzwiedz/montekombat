@@ -6,12 +6,11 @@ Rails.application.routes.draw do
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  resources :users, only: [:index, :show, :edit, :create, :update, :destroy] do
-    collection do
-      get "users_index"
-    end
+  resources :users, only: [:index, :show, :edit, :create, :update, :destroy]
+  resources :teams, only: [:edit, :update, :new, :create, :destroy] do
+    delete "/remove_user/:user_id", to: "teams#remove_user"
+    post "/add_user/:user_id", to: "teams#add_user"
   end
-  resources :teams, only: [:edit, :update, :new, :create]
   resources :tournaments do
     collection do
       get "types"

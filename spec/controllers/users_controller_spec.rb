@@ -4,7 +4,7 @@ RSpec.describe UsersController do
   let(:valid_user) { create(:user) }
   let(:admin_user) { create(:user, :admin) }
 
-  let(:not_valid_user) { create(:user, :without_email) }
+  let(:not_valid_user) { create(:user).except(:email) }
 
   describe "GET #show" do
     before { get :show, params: { id: valid_user.id } }
@@ -33,7 +33,7 @@ RSpec.describe UsersController do
       it { subject; expect(response).to redirect_to User.last }
     end
     context "with invalid attributes" do
-      subject { post :create, params: { user: attributes_for(:user, :without_email) } }
+      subject { post :create, params: { user: attributes_for(:user).except(:email) } }
 
       it { expect { subject }.not_to change { User.count } }
       it "renders :new template" do

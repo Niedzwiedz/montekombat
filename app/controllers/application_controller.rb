@@ -1,9 +1,7 @@
 class ApplicationController < ActionController::Base
   # protect_from_forgery with: :exception
   helper_method :users, :games, :teams, :current_user, :logged_in?
-
   # rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-
   def render_not_found
     render file: "#{Rails.root}/public/404.html", layout: false, status: 404
   end
@@ -35,5 +33,11 @@ class ApplicationController < ActionController::Base
   def log_out
     session.delete(:user_id)
     @current_user = nil
+  end
+
+  def ensure_logged_in
+    return if logged_in?
+    flash[:danger] = "Please log in."
+    redirect_to login_path
   end
 end
