@@ -8,12 +8,12 @@ class Tournament < ApplicationRecord
   has_many :users, through: :tournament_users
 
   accepts_nested_attributes_for :teams
-  # accepts_nested_attributes_for :tournament_users
 
   validates :title, :start_date, :game, :creator, :number_of_teams, :number_of_players_in_team, presence: true
   validate :team_size, if: :numbers_of_teams_and_players_specified
   validate :full_tournament, if: :numbers_of_teams_and_players_specified
   validate :each_team_players_count
+  validate :duplicated_players
 
   enum status: {
     open: 0,
@@ -35,6 +35,12 @@ class Tournament < ApplicationRecord
   end
 
   private
+
+  def duplicated_players
+    user_ids = tournament_users.map(&:user_id)
+    return if user_ids == user_ids.uniq
+    errors[:tournament] << "Can't be duplicated players in tournament"
+  end
 
   def each_team_players_count
     teams.each { |team| players_count_in_team(team) }

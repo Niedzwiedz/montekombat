@@ -15,4 +15,10 @@ class Team < ApplicationRecord
       errors[:player] << "Can't be too many players in team"
     end
   end
+
+  def duplicated_players
+    user_ids = team_users.map(&:user_id)
+    return if user_ids == user_ids.uniq
+    errors[:tournament] << "Can't be duplicated players in tournament"
+  end
 end
